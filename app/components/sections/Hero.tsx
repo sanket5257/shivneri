@@ -42,19 +42,6 @@ export default function UpticHero() {
       { y: 0, opacity: 1, duration: 0.8 },
       '-=0.4'
     )
-    // Animate the buttons
-    .fromTo(
-      '.hero-button',
-      { y: 30, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        duration: 0.6, 
-        stagger: 0.15,
-        ease: 'back.out(1.4)'
-      },
-      '-=0.4'
-    );
 
     // Parallax effect on scroll
     if (heroRef.current) {
@@ -102,17 +89,19 @@ export default function UpticHero() {
           
           <div ref={buttonRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <button 
-              className="hero-button btn-primary w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base"
+              className="hero-button btn-primary w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base transform-gpu will-change-transform"
+              style={{ transform: 'translateZ(0)' }}
               onClick={() => setIsModalOpen(true)}
             >
               Book a meeting
             </button>
             <Link 
               href="/services" 
-              className="hero-button w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition flex items-center justify-center space-x-2 group"
+              className="hero-button w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition-all duration-300 flex items-center justify-center space-x-2 group transform-gpu will-change-transform"
+              style={{ transform: 'translateZ(0)' }}
             >
-              <span>Our services</span>
-              <span className="transform group-hover:translate-x-1 transition">→</span>
+              <span className="relative z-10">Our services</span>
+              <span className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>
