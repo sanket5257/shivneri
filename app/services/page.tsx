@@ -87,7 +87,7 @@ export default function UXUIShowcase() {
       subtitle: 'Filming & Editing',
       description: 'We produce high-quality video content that tells your brand\'s story and captivates your target audience.',
       videoSrc: '/assets/video_editing.mp4',
-      features: [
+      features: [ 
         'Corporate videos',
         'Product demos',
         'Testimonial videos',

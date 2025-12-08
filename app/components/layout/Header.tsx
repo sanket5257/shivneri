@@ -25,7 +25,7 @@ const Header = () => {
     { id: 'customer-stories', label: 'Customer Stories', path: '/customer-stories' },
     { id: 'products', label: 'Products', path: '/products' },
     { id: 'about', label: 'About', path: '/about' },
-  ];
+  ];        
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,7 +75,7 @@ const Header = () => {
             ))}
           </div>
           
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="md:flex hidden items-center space-x-3 sm:space-x-4">
             <button 
               className="btn-primary text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2"
               onClick={() => {
@@ -98,9 +98,9 @@ const Header = () => {
         </nav>
 
         {/* Mobile Menu */}
-        <div className={`fixed inset-0 bg-black/95 backdrop-blur-lg z-40 transition-all duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
-          <div className="h-full overflow-y-auto pt-24 pb-8 px-6">
-            <nav className="flex flex-col space-y-6">
+        <div className={`fixed inset-0 bg-black backdrop-blur-lg z-40 transition-all duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
+          <div className="h-full bg-black  pt-24 pb-8 ">
+            <nav className="flex bg-black flex-col px-4 space-y-6">
               {navItems.map((item) => (
                 <Link 
                   key={item.id}
@@ -115,15 +115,7 @@ const Header = () => {
               ))}
               
               <div className="pt-8 flex flex-col space-y-4">
-                <button 
-                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 text-white text-lg font-medium"
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setIsOpen(false);
-                  }}
-                >
-                  Book a meeting
-                </button>
+               
                 
                 <div className="flex justify-center space-x-6 pt-8">
                   <a href="mailto:contact@shivneri.com" className="text-gray-400 hover:text-white transition-colors">
