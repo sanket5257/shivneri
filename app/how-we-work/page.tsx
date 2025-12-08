@@ -25,7 +25,7 @@ const Page = () => {
       {/* Background Image */}
       <img 
         ref={bgImageRef}
-        className='absolute opacity-50 top-0 left-0 w-full h-auto -translate-y-1/2 transform-gpu origin-center min-w-[1200px] md:min-w-full'
+        className='absolute opacity-50 top-0 left-0 w-full h-auto transform-gpu origin-center min-w-[1200px] md:min-w-full'
         src="/assets/images/68c97f8d935467f69535950d_Frame 1171275157.svg" 
         alt="" 
       />
