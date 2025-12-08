@@ -50,7 +50,7 @@ export default function HeroSection() {
     };
   }, []);
   return (
-    <section ref={sectionRef} className="relative w-full min-h-screen h-auto overflow-hidden bg-black">
+    <section ref={sectionRef} className="relative max-w-7xl mx-auto min-h-screen h-auto overflow-hidden bg-black">
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover opacity-40"

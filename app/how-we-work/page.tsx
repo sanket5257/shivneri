@@ -5,6 +5,7 @@ import { CheckCircle2 } from 'lucide-react';
 import TeamModel from '../components/sections/TeamModel';
 import CTA from '../components/sections/CTA';
 import gsap from 'gsap';
+import SecurityApproch from '../components/sections/SecurityApproch';
 
 const Page = () => {
   const bgImageRef = useRef<HTMLImageElement>(null);
@@ -102,6 +103,7 @@ const Page = () => {
         </div>
       </div>
       <div className='h-16 sm:h-32 md:h-40 w-full'></div>
+      <SecurityApproch/>
       <TeamModel />
       <CTA/>
     </div>
