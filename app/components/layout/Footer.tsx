@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 export default function ModernFooter() {
   const services = [
-    { name: 'Development', path: '/services/development' },
-    { name: 'Platforms', path: '/services/platforms' },
-    { name: 'Operate & Innovate', path: '/services/operate-innovate' }
+    { name: 'Development', path: '/services' },
+    { name: 'Platforms', path: '/services' },
+    { name: 'Operate & Innovate', path: '/services' }
   ];
 
   const assessments = [
@@ -18,16 +18,16 @@ export default function ModernFooter() {
   ];
 
   const company = [
-    { name: 'Customer Stories', path: '/company/customer-stories' },
-    { name: 'Partners', path: '/company/partners' },
-    { name: 'How We Work', path: '/company/how-we-work' },
+    { name: 'Customer Stories', path: '/customer-stories' },
+    { name: 'Products', path: '/products' },
+    { name: 'How We Work', path: '/how-we-work' },
     { name: 'Careers', path: '/about#careers' }
   ];
 
   const about = [
-    { name: 'Our Mission', path: '/about/mission' },
-    { name: "Shivneri's Journey", path: '/about/journey' },
-    { name: 'Leadership Team', path: '/about/leadership' },
+    { name: 'Our Mission', path: '/about#mvp' },
+    { name: "Shivneri's Journey", path: '/about#journey' },
+    { name: 'Leadership Team', path: '/about#leadership' },
     { name: 'Contact', path: '/about#contact' }
   ];
 

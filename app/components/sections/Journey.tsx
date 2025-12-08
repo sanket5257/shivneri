@@ -85,7 +85,7 @@ const JourneyTimeline = () => {
   }, []);
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div id='journey' className="bg-black text-white min-h-screen">
       {/* Hero Section */}
       <div className="flex items-center justify-center relative overflow-hidden journey-title py-20 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900 to-black"></div>

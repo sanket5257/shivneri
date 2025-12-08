@@ -18,7 +18,7 @@ export default function MVPCards() {
   ];
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-8">
+    <div id="mvp" className="min-h-screen bg-black flex items-center justify-center p-8">
       <div className="max-w-7xl w-full">
         {/* MVP Badge */}
         <div className="flex justify-center mb-12">

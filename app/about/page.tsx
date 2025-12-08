@@ -1,11 +1,16 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Mvp from '../components/sections/Mvp';
 import Manifesto from '../components/sections/Manifesto';
 import Careears from '../components/sections/Careears';
 import Contact from '../components/sections/Contact';
 import Journey from '../components/sections/Journey';
+import Leadership from '../components/sections/Leadership';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function UpticLanding() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -16,100 +21,95 @@ export default function UpticLanding() {
   const cylinderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Dynamically import GSAP and ScrollTrigger
-    import('gsap').then((gsapModule) => {
-      const gsap = gsapModule.default;
-      
-      import('gsap/ScrollTrigger').then((ScrollTriggerModule) => {
-        const ScrollTrigger = ScrollTriggerModule.default;
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero section animations (exclude button)
-        const heroElements = heroRef.current?.querySelectorAll('.hero-content > :not(button)');
-        if (heroElements && heroElements.length > 0) {
-          gsap.from(heroElements, {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-            stagger: 0.2,
-            ease: 'power3.out',
-          });
-        }
-
-        // Cylinder rotation animation
-        gsap.to(cylinderRef.current, {
-          rotationY: 360,
-          scrollTrigger: {
-            trigger: servicesRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-
-        // Card 1 animation (right side)
-        gsap.from(card1Ref.current, {
-          opacity: 0,
-          x: 100,
-          y: 50,
-          scrollTrigger: {
-            trigger: card1Ref.current,
-            start: 'top 80%',
-            end: 'top 50%',
-            scrub: 1,
-          },
-        });
-
-        // Card 2 animation (left side)
-        gsap.from(card2Ref.current, {
-          opacity: 0,
-          x: -100,
-          y: 50,
-          scrollTrigger: {
-            trigger: card2Ref.current,
-            start: 'top 75%',
-            end: 'top 45%',
-            scrub: 1,
-          },
-        });
-
-        // Card 3 animation (right side)
-        gsap.from(card3Ref.current, {
-          opacity: 0,
-          x: 100,
-          y: 50,
-          scrollTrigger: {
-            trigger: card3Ref.current,
-            start: 'top 70%',
-            end: 'top 40%',
-            scrub: 1,
-          },
-        });
-
-        // Parallax effect for background grid
-        gsap.to('.bg-grid', {
-          y: 200,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-
-        // Section title animation
-        gsap.from('.section-title', {
-          opacity: 0,
-          y: 50,
-          scrollTrigger: {
-            trigger: '.section-title',
-            start: 'top 80%',
-            end: 'top 60%',
-            scrub: 1,
-          },
-        });
+    // Hero section animations (exclude button)
+    const heroElements = heroRef.current?.querySelectorAll('.hero-content > :not(button)');
+    if (heroElements && heroElements.length > 0) {
+      gsap.from(heroElements, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
       });
+    }
+
+    // Cylinder rotation animation
+    gsap.to(cylinderRef.current, {
+      rotationY: 360,
+      scrollTrigger: {
+        trigger: servicesRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      },
     });
+
+    // Card 1 animation (right side)
+    gsap.from(card1Ref.current, {
+      opacity: 0,
+      x: 100,
+      y: 50,
+      scrollTrigger: {
+        trigger: card1Ref.current,
+        start: 'top 80%',
+        end: 'top 50%',
+        scrub: 1,
+      },
+    });
+
+    // Card 2 animation (left side)
+    gsap.from(card2Ref.current, {
+      opacity: 0,
+      x: -100,
+      y: 50,
+      scrollTrigger: {
+        trigger: card2Ref.current,
+        start: 'top 75%',
+        end: 'top 45%',
+        scrub: 1,
+      },
+    });
+
+    // Card 3 animation (right side)
+    gsap.from(card3Ref.current, {
+      opacity: 0,
+      x: 100,
+      y: 50,
+      scrollTrigger: {
+        trigger: card3Ref.current,
+        start: 'top 70%',
+        end: 'top 40%',
+        scrub: 1,
+      },
+    });
+
+    // Parallax effect for background grid
+    gsap.to('.bg-grid', {
+      y: 200,
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    // Section title animation
+    gsap.from('.section-title', {
+      opacity: 0,
+      y: 50,
+      scrollTrigger: {
+        trigger: '.section-title',
+        start: 'top 80%',
+        end: 'top 60%',
+        scrub: 1,
+      },
+    });
+
+    // Cleanup ScrollTrigger on unmount
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   const services = [
@@ -289,6 +289,7 @@ export default function UpticLanding() {
               <Mvp/>
               <Manifesto/>
               <Journey/>
+              <Leadership/>
               <Contact/>
               <Careears/>
       {/* Additional spacing */}

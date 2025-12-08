@@ -1,11 +1,8 @@
 'use client'
 import React, { useRef, useLayoutEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import OurApproachSection from '../components/sections/OurApproch';
 import CTA from '../components/sections/CTA';
 
-gsap.registerPlugin(ScrollTrigger);
 
 export default function UXUIShowcase() {
   const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
