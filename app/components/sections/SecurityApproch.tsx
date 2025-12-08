@@ -25,7 +25,7 @@ export default function SecuritySection() {
   ];
 
   return (
-    <div className="min-h-screen bg-white py-16 px-6 rounded-4xl">
+    <div className="min-h-screen w-full bg-white py-16 px-6 rounded-4xl">
       <div className="">
         {/* Header Section */}
         <div className="text-center mb-16">

@@ -2,6 +2,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import OurApproachSection from '../components/sections/OurApproch';
 import CTA from '../components/sections/CTA';
+import TechStack from '../components/sections/TechStack';
 
 
 export default function UXUIShowcase() {
@@ -110,6 +111,25 @@ export default function UXUIShowcase() {
         className="relative max-w-7xl mx-auto px-8 pb-32"
         
       >
+
+   <div className="text-center mb-16">
+          <div className="inline-block mb-8">
+            <button className="px-6 py-2 rounded-full border-2 border-gray-600 text-gray-400 text-sm hover:border-gray-500 transition-colors">
+              Development from UI to AI
+            </button>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            Build Bold.<br />
+            <span className="text-gray-500">Modernize Smart.</span>
+          </h1>
+          
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+            From greenfield apps to SaaS modernization, we design, build,<br />
+            and scale software that's fast, secure, and built for what's next.
+          </p>
+        </div>
+
         {services.map((service, index) => (
           <div
             key={service.id}
@@ -168,7 +188,7 @@ export default function UXUIShowcase() {
           </div>
         ))}
       </div>
-
+        <TechStack/>
       <OurApproachSection />
       <CTA/>
     </div>
