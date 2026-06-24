@@ -3,6 +3,7 @@ import "./globals.css";
 import "./styles/fonts.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import InfiniteLoop from "./components/layout/InfiniteLoop";
 import SmoothScroll from "./providers/SmoothScroll";
 
 export const metadata: Metadata = {
@@ -20,8 +21,9 @@ export default function RootLayout({
       <body style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
         <SmoothScroll>
           <Header />
-          {children}
+          <div className="relative z-10 bg-black">{children}</div>
           <Footer />
+          <InfiniteLoop />
         </SmoothScroll>
       </body>
     </html>

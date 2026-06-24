@@ -50,7 +50,7 @@ export default function HeroSection() {
     };
   }, []);
   return (
-    <section ref={sectionRef} className="relative max-w-7xl mx-auto min-h-screen h-auto overflow-hidden bg-black">
+    <section ref={sectionRef} className="relative w-full mx-auto min-h-screen h-auto overflow-hidden bg-black">
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover opacity-40"
@@ -66,7 +66,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/30" />
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center min-h-screen py-20 lg:py-0 px-4 sm:px-6 lg:px-8 mx-auto">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center min-h-screen py-20 lg:py-0 px-6 md:px-12 lg:px-24 mx-auto">
         {/* Left Side - Main Heading */}
         <div ref={leftContentRef} className="w-full lg:w-1/2 lg:pr-8 mb-12 lg:mb-0">
           {/* TL;DR Badge */}

@@ -43,8 +43,8 @@ const WhyUptic = () => {
   };
 
   return (
-    <section className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-      <div className="max-w-[1600px] mx-auto">
+    <section className="min-h-screen bg-black text-white px-6 md:px-12 lg:px-24 py-12 sm:py-16 lg:py-24">
+      <div className="w-full mx-auto">
         {/* Header */}
         <div className="mb-8 sm:mb-10">
           <div className="why-badge inline-block px-4 sm:px-6 py-1.5 sm:py-2 border border-neutral-700 rounded-full text-xs sm:text-sm text-neutral-400 mb-6 sm:mb-8">

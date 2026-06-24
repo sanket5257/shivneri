@@ -16,6 +16,10 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       smoothWheel: true,
     });
 
+    // Expose the instance so other components (e.g. the infinite-loop reveal)
+    // can drive scroll position in sync with Lenis.
+    (window as unknown as { lenis?: Lenis }).lenis = lenis;
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -26,6 +30,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     // Clean up
     return () => {
       lenis.destroy();
+      delete (window as unknown as { lenis?: Lenis }).lenis;
     };
   }, []);
 

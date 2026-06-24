@@ -63,7 +63,7 @@ export default function UpticHero() {
         <video className='object-cover h-full w-full' src="/assets/Homepage X Hero Video (1).mp4" autoPlay loop muted></video>
         
         {/* Hero Content */}
-        <div ref={heroRef} className="absolute top-30 sm:top-10 md:top-20 right-0 left-0 bottom-0 z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-32 pb-20 md:pb-40 text-center">
+        <div ref={heroRef} className="absolute top-30 sm:top-10 md:top-20 right-0 left-0 bottom-0 z-10 mx-auto px-6 md:px-12 lg:px-24 pt-20 sm:pt-32 pb-20 md:pb-40 text-center">
           <div className="mb-6 sm:mb-8 overflow-hidden">
             <span className="hero-badge inline-block px-4 sm:px-6 py-1.5 sm:py-2 border border-neutral-700 rounded-full text-xs sm:text-sm text-neutral-300">
               Modern Full-Stack Development & Engineering
