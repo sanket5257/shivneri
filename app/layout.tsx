@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./styles/fonts.css";
 import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
+import Footer from "./components/layout/Footer2";
 import InfiniteLoop from "./components/layout/InfiniteLoop";
 import SmoothScroll from "./providers/SmoothScroll";
 
