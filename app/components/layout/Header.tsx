@@ -11,6 +11,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [time, setTime] = useState('');
+  const [menuHover, setMenuHover] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -90,21 +91,59 @@ const Header = () => {
             {/* Toggle row */}
             <button
               onClick={() => setIsOpen((v) => !v)}
+              onMouseEnter={() => setMenuHover(true)}
+              onMouseLeave={() => setMenuHover(false)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              className="flex w-full items-center justify-between px-6 text-white"
+              className="flex w-full cursor-pointer items-center justify-between px-6 text-white"
               style={{ height: 60 }}
             >
-              <span className="text-sm font-light tracking-wide">
+              <span
+                className="text-sm font-light tracking-wide transition-opacity duration-300"
+                style={{ opacity: menuHover && !isOpen ? 0.8 : 1 }}
+              >
                 {isOpen ? 'Close' : 'Menu'}
               </span>
-              <span className="relative flex h-2 w-5 flex-col justify-between">
+              <span
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                  gap: 6,
+                  width: 24,
+                  height: 9,
+                }}
+              >
+                {/* Top line */}
                 <span
-                  className="block h-px w-full bg-white transition-transform duration-300"
-                  style={{ transform: isOpen ? 'translateY(4px) rotate(45deg)' : 'none' }}
+                  style={{
+                    height: 1.5,
+                    borderRadius: 9999,
+                    background: '#fff',
+                    width: isOpen ? '100%' : menuHover ? '55%' : '100%',
+                    transformOrigin: 'center',
+                    transform: isOpen
+                      ? 'translateY(3.75px) rotate(45deg)'
+                      : 'none',
+                    transition:
+                      'width 0.45s cubic-bezier(0.76, 0, 0.24, 1), transform 0.45s cubic-bezier(0.76, 0, 0.24, 1)',
+                  }}
                 />
+                {/* Bottom line */}
                 <span
-                  className="block h-px w-full bg-white transition-transform duration-300"
-                  style={{ transform: isOpen ? 'translateY(-4px) rotate(-45deg)' : 'none' }}
+                  style={{
+                    height: 1.5,
+                    borderRadius: 9999,
+                    background: '#fff',
+                    width: isOpen ? '100%' : menuHover ? '100%' : '55%',
+                    transformOrigin: 'center',
+                    transform: isOpen
+                      ? 'translateY(-3.75px) rotate(-45deg)'
+                      : 'none',
+                    transition:
+                      'width 0.45s cubic-bezier(0.76, 0, 0.24, 1) 0.06s, transform 0.45s cubic-bezier(0.76, 0, 0.24, 1)',
+                  }}
                 />
               </span>
             </button>
