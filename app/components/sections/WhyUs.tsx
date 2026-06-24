@@ -1,66 +1,18 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 
 const WhyUptic = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Register ScrollTrigger plugin
-  gsap.registerPlugin(ScrollTrigger);
-
   useGSAP(() => {
-    // Set initial state (all cards hidden)
-    gsap.set(cardsRef.current, { 
-      opacity: 0, 
-      y: 30 
-    });
-
-    // Animate header elements
-    const headerTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    
-    headerTl
-      .fromTo('.why-badge', 
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 }
-      )
-      .fromTo('.why-heading span', 
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 },
-        '-=0.4'
-      )
-      .fromTo('.explore-link', 
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        '-=0.4'
-      );
-
-    // Card animations with scroll trigger
-    cardsRef.current.forEach((card, index) => {
+    // Add hover effect for each card
+    cardsRef.current.forEach((card) => {
       if (!card) return;
-      
-      // Animate in with scroll trigger
-      gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: index * 0.15,
-        ease: 'back.out(1.2)',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        },
-        onComplete: () => {
-          // Only add hover effects after initial animation
-          gsap.set(card, { opacity: 1 });
-        }
-      });
 
-      // Add hover effect for each card
       card.addEventListener('mouseenter', () => {
         gsap.to(cardsRef.current, {
           opacity: 0.4,
@@ -104,7 +56,7 @@ const WhyUptic = () => {
           <h1 className="why-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight">
             <span className="inline-block">Built isn't Enough.</span>
           </h1>
-          <div className="explore-link flex justify-end mt-6 sm:mt-8 opacity-0">
+          <div className="explore-link flex justify-end mt-6 sm:mt-8">
             <Link href="/how-we-work" className="explore-link flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 rounded-full hover:border-gray-500 transition-all duration-300 hover:bg-gray-900/30 text-sm sm:text-base">
               <span className="text-gray-400">Explore how we work</span>
               <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-gray-700 flex items-center justify-center flex-shrink-0">
@@ -121,7 +73,7 @@ const WhyUptic = () => {
           {/* Full-Stack Engineering Card */}
           <div 
             ref={el => addToRefs(el, 0)}
-            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500 transform translate-y-8"
+            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-3xl font-light tracking-tight">
@@ -154,7 +106,7 @@ const WhyUptic = () => {
           {/* Flexible Teams Card */}
           <div 
             ref={el => addToRefs(el, 1)}
-            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500 transform translate-y-8"
+            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-3xl font-light tracking-tight">
@@ -187,7 +139,7 @@ const WhyUptic = () => {
           {/* Bottom Full-Width Card */}
           <div 
             ref={el => addToRefs(el, 2)}
-            className="group relative lg:col-span-2 bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl overflow-hidden hover:border-neutral-700/50 transition-all duration-500 transform translate-y-8"
+            className="group relative lg:col-span-2 bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
           >
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Left: Video Background */}

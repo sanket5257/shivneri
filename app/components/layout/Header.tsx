@@ -6,77 +6,145 @@ import dynamic from 'next/dynamic';
 
 const BookingModal = dynamic(() => import('../BookingModal'), { ssr: false });
 import { usePathname } from 'next/navigation';
-import { FiMenu, FiX } from 'react-icons/fi';
-import { MdEmail, MdPhone } from 'react-icons/md';
-import { FaLinkedin } from 'react-icons/fa';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
+  const [time, setTime] = useState('');
+  const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const navItems = [
-    { id: 'services', label: 'Services +', path: '/services' },
-    { id: 'work', label: 'Work +', path: '/work' },
+    { id: 'about', label: 'About', path: '/about' },
+    { id: 'services', label: 'Services', path: '/services' },
+    { id: 'work', label: 'Work', path: '/work' },
     { id: 'how-we-work', label: 'How We Work', path: '/how-we-work' },
     { id: 'customer-stories', label: 'Customer Stories', path: '/customer-stories' },
     { id: 'products', label: 'Products', path: '/products' },
-    { id: 'about', label: 'About', path: '/about' },
-  ];        
+  ];
 
+  // Live clock (IST) like Ecrin's location/time status
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    const tick = () => {
+      setTime(
+        new Date().toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'Asia/Kolkata',
+        })
+      );
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
   }, []);
 
+  // Close the expanded menu when clicking outside of it
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <header className={`fixed w-full z-50 backdrop-blur-xl transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center z-50">
-            <img 
-              src="../assets/images/logo2.png" 
-              alt="Shivneri Systems" 
-              className="h-7 sm:h-8 w-auto transition-all duration-300" 
-              width={scrolled ? 100 : 120}
-              height={scrolled ? 28 : 32}
+    <>
+      <header className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 lg:px-24 py-6 md:py-8">
+        <nav className="mx-auto flex items-start justify-between">
+          {/* Left: Logo */}
+          <Link
+            href="/"
+            className="z-50 flex items-center pt-3"
+            onClick={() => setIsOpen(false)}
+          >
+            <img
+              src="../assets/images/logo2.png"
+              alt="Shivneri Systems"
+              className="h-7 sm:h-8 w-auto"
             />
           </Link>
-          
-          {/* Desktop Navigation */}
-          <div 
-            ref={navRef}
-            className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8 text-sm"
-            onMouseLeave={() => setHoveredItem(null)}
+
+          {/* Center: expanding Menu panel (matches Ecrin .menu-panel) */}
+          <div
+            ref={menuRef}
+            className="absolute left-1/2 -translate-x-1/2 z-50 w-64 sm:w-80 md:w-96 overflow-hidden rounded-2xl"
+            style={{
+              maxHeight: isOpen ? 420 : 60,
+              background:
+                'linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
+              backdropFilter: 'blur(40px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: isOpen
+                ? 'inset 0 1px 0 0 rgba(255,255,255,0.18), 0 24px 60px -12px rgba(0,0,0,0.7)'
+                : 'inset 0 1px 0 0 rgba(255,255,255,0.14), 0 12px 32px -8px rgba(0,0,0,0.5)',
+              transition:
+                'max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+            }}
           >
-            {navItems.map((item) => (
-              <div key={item.id} className="relative group">
-                <Link
-                  href={item.path}
-                  className={`transition-all duration-300 ${
-                    hoveredItem && hoveredItem !== item.id 
-                      ? 'opacity-40 hover:opacity-100' 
-                      : 'opacity-100'
-                  } text-white hover:text-orange-400 cursor-pointer text-sm lg:text-sm`}
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-                <div className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-400 transition-all duration-300 ${pathname === item.path ? 'w-full' : 'group-hover:w-full'}`}></div>
+            {/* Toggle row */}
+            <button
+              onClick={() => setIsOpen((v) => !v)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="flex w-full items-center justify-between px-6 text-white"
+              style={{ height: 60 }}
+            >
+              <span className="text-sm font-light tracking-wide">
+                {isOpen ? 'Close' : 'Menu'}
+              </span>
+              <span className="relative flex h-2 w-5 flex-col justify-between">
+                <span
+                  className="block h-px w-full bg-white transition-transform duration-300"
+                  style={{ transform: isOpen ? 'translateY(4px) rotate(45deg)' : 'none' }}
+                />
+                <span
+                  className="block h-px w-full bg-white transition-transform duration-300"
+                  style={{ transform: isOpen ? 'translateY(-4px) rotate(-45deg)' : 'none' }}
+                />
+              </span>
+            </button>
+
+            {/* Expanding content */}
+            <div className="px-6 pb-6">
+              <nav className="flex flex-col">
+                {navItems.map((item, index) => (
+                  <Link
+                    key={item.id}
+                    href={item.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`group flex items-baseline gap-2 py-1 uppercase tracking-tight transition-colors duration-300 ${
+                      pathname === item.path
+                        ? 'text-orange-400'
+                        : 'text-white hover:text-orange-400'
+                    }`}
+                  >
+                    <span className="text-2xl font-medium">{item.label}</span>
+                    <span className="text-xs font-light text-white/40 transition-colors duration-300 group-hover:text-orange-400">
+                      ({index + 1})
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Status line */}
+              <div className="mt-5 flex items-center gap-2 border-t border-white/[0.08] pt-4 text-xs text-neutral-400">
+                <span>Ichalkaranji, India</span>
+                <span>·</span>
+                <time>{time}</time>
+                <span>·</span>
+                <span>IST</span>
               </div>
-            ))}
+            </div>
           </div>
-          
-          <div className="md:flex hidden items-center space-x-3 sm:space-x-4">
-            <button 
+
+          {/* Right: Book a meeting */}
+          <div className="z-50 flex items-center space-x-3 sm:space-x-4 pt-2">
+            <button
               className="btn-primary text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2"
               onClick={() => {
                 setIsModalOpen(true);
@@ -86,59 +154,14 @@ const Header = () => {
               Book a meeting
             </button>
           </div>
-
-          {/* Mobile Navigation Toggle */}
-          <button 
-            className="md:hidden text-white z-50 p-2 -mr-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
-          >
-            {isOpen ? <FiX size={28} /> : <FiMenu size={28} />}
-          </button>
         </nav>
+      </header>
 
-        {/* Mobile Menu */}
-        <div className={`fixed inset-0 bg-black backdrop-blur-lg z-40 transition-all duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
-          <div className="h-full bg-black  pt-24 pb-8 ">
-            <nav className="flex bg-black flex-col px-4 space-y-6">
-              {navItems.map((item) => (
-                <Link 
-                  key={item.id}
-                  href={item.path}
-                  className={`text-2xl font-light py-3 border-b border-gray-800 hover:text-orange-400 transition-colors duration-200 ${
-                    pathname === item.path ? 'text-orange-400' : 'text-white'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              
-              <div className="pt-8 flex flex-col space-y-4">
-               
-                
-                <div className="flex justify-center space-x-6 pt-8">
-                  <a href="mailto:contact@shivneri.com" className="text-gray-400 hover:text-white transition-colors">
-                    <MdEmail size={24} />
-                  </a>
-                  <a href="tel:+911234567890" className="text-gray-400 hover:text-white transition-colors">
-                    <MdPhone size={24} />
-                  </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                    <FaLinkedin size={24} />
-                  </a>
-                </div>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
-      
-      <BookingModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
-    </header>
+    </>
   );
 };
 
