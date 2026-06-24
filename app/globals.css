@@ -40,6 +40,21 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Hide the native scrollbar — scrolling stays fully functional via
+   wheel / trackpad / touch / keyboard (and Lenis smooth scroll). */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge / IE */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important; /* Chrome / Safari / Edge */
+}
+
 /* Primary Button Style */
 .btn-primary {
   padding: 0.75rem 2rem;

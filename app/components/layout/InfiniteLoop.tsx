@@ -30,16 +30,56 @@ export default function InfiniteLoop() {
     };
     const getLenis = () => (window as unknown as { lenis?: Lenis }).lenis;
 
-    const handleScroll = () => {
-      const atBottom =
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - 2;
-      // At the bottom the fixed hero fully fills the viewport — identical to the
-      // real Hero at the top, so snapping to 0 is seamless.
-      if (atBottom) {
-        getLenis()?.scrollTo(0, { immediate: true });
+    // Only loop when the bottom is reached via an actual downward scroll gesture
+    // (wheel / touch / keys) — NOT while dragging the native scrollbar, which
+    // would otherwise fight the snap and feel "stuck". The window is generous
+    // enough to cover Lenis's momentum after the last gesture.
+    const INTENT_MS = 1600;
+    let lastDownIntentAt = -Infinity;
+
+    const atBottom = () =>
+      window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 2;
+
+    const loopToTop = () => getLenis()?.scrollTo(0, { immediate: true });
+
+    const markDownIntent = () => {
+      lastDownIntentAt = performance.now();
+      // If we're already parked at the bottom on the hero, a fresh downward
+      // gesture continues the site straight away (no scroll event would fire).
+      if (atBottom()) loopToTop();
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0) markDownIntent();
+    };
+    let lastTouchY: number | null = null;
+    const onTouchStart = (e: TouchEvent) => {
+      lastTouchY = e.touches[0]?.clientY ?? null;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY ?? null;
+      if (lastTouchY !== null && y !== null && y < lastTouchY) markDownIntent();
+      lastTouchY = y;
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) {
+        markDownIntent();
       }
     };
+
+    const handleScroll = () => {
+      // At the bottom the fixed hero fully fills the viewport — identical to the
+      // real Hero at the top, so snapping to 0 is seamless.
+      if (atBottom() && performance.now() - lastDownIntentAt < INTENT_MS) {
+        loopToTop();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
 
     // Lenis (its virtual scroll doesn't emit native scroll events) is created by
     // SmoothScroll's effect, which runs after this one — poll until it exists.
@@ -59,6 +99,10 @@ export default function InfiniteLoop() {
     return () => {
       window.clearInterval(id);
       detach();
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [pathname]);
 

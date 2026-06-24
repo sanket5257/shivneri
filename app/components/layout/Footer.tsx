@@ -45,7 +45,14 @@ export default function ModernFooter() {
   ];
 
   return (
-    <footer className="relative z-10 overflow-hidden text-white">
+    <footer
+      className="relative z-10 overflow-hidden text-white"
+      style={{
+        WebkitMaskImage:
+          'linear-gradient(to bottom, black 90%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)',
+      }}
+    >
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <video 
           className="w-full h-full object-cover"
