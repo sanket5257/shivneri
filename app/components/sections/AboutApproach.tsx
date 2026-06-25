@@ -139,7 +139,7 @@ export default function AboutApproach() {
       ref={sectionRef}
       className="aa-section relative w-full overflow-hidden bg-black text-white"
     >
-      <div className="mx-auto flex min-h-screen w-full flex-col justify-center gap-14 px-6 py-24 md:gap-20 md:px-12 lg:px-24">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1728px] flex-col justify-center gap-14 px-6 py-24 md:gap-20 md:px-12 lg:px-24">
         {/* ---- Word-by-word heading ---- */}
         <h2
           ref={headingRef}

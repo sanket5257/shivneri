@@ -8,17 +8,19 @@ import Link from 'next/link';
  * "Infinite site" loop for the homepage.
  *
  * A static clone of the Hero's first screen is rendered as a FIXED, full-screen
- * layer sitting *behind* the page content (lower z-index). The page content and
- * footer are opaque and sit above it, so the hero stays hidden during normal
- * scrolling. A full-height spacer after the footer gives the scroll room needed
- * to slide the footer up and off — progressively revealing the fixed hero
- * underneath (a smooth, seam-free reveal since the footer simply uncovers it).
- * Once the bottom is reached (hero fully revealed, identical to the real Hero),
- * we snap the scroll back to 0 for a seamless loop.
+ * layer sitting *behind* the page content (lower z-index), kept hidden by the
+ * opaque content + footer above it.
+ *
+ * When the visitor reaches the bottom of the footer, a progress bar pinned to
+ * the footer's bottom edge fills up from continued downward-scroll intent —
+ * while the footer stays fully in view (the hero is NOT revealed yet). Only once
+ * the bar is FULL does the footer fade out to reveal the fixed hero behind it
+ * and the scroll snaps back to the top — a seamless loop back to the Hero.
  */
 export default function InfiniteLoop() {
   const pathname = usePathname();
-  const ref = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (pathname !== '/') return;
@@ -28,30 +30,64 @@ export default function InfiniteLoop() {
       on: (e: string, cb: () => void) => void;
       off: (e: string, cb: () => void) => void;
     };
-    const getLenis = () => (window as unknown as { lenis?: Lenis }).lenis;
+    const getLenis = () =>
+      (window as unknown as { lenis?: Lenis }).lenis;
 
-    // Only loop when the bottom is reached via an actual downward scroll gesture
-    // (wheel / touch / keys) — NOT while dragging the native scrollbar, which
-    // would otherwise fight the snap and feel "stuck". The window is generous
-    // enough to cover Lenis's momentum after the last gesture.
-    const INTENT_MS = 1600;
-    let lastDownIntentAt = -Infinity;
+    // How much downward-scroll "effort" (in px of wheel/touch delta) is needed
+    // to fill the bar completely.
+    const FILL_DISTANCE = 1100;
+
+    let progress = 0; // 0 → 1
+    let lastIntentAt = -Infinity;
+    let looping = false;
 
     const atBottom = () =>
       window.scrollY + window.innerHeight >=
       document.documentElement.scrollHeight - 2;
 
-    const loopToTop = () => getLenis()?.scrollTo(0, { immediate: true });
+    const render = () => {
+      const el = progressRef.current;
+      const fill = fillRef.current;
+      if (!el || !fill) return;
+      fill.style.width = `${progress * 100}%`;
+      el.style.opacity = atBottom() || progress > 0 ? '1' : '0';
+    };
 
-    const markDownIntent = () => {
-      lastDownIntentAt = performance.now();
-      // If we're already parked at the bottom on the hero, a fresh downward
-      // gesture continues the site straight away (no scroll event would fire).
-      if (atBottom()) loopToTop();
+    const triggerLoop = () => {
+      if (looping) return;
+      looping = true;
+      progress = 1;
+      render();
+
+      // Fade the footer out to reveal the fixed hero behind it, then snap the
+      // scroll to the top (the real Hero) — so the loop reads as seamless.
+      const footer = document.querySelector('footer') as HTMLElement | null;
+      if (footer) {
+        footer.style.transition = 'opacity 0.45s ease';
+        footer.style.opacity = '0';
+      }
+      window.setTimeout(() => {
+        getLenis()?.scrollTo(0, { immediate: true });
+        if (footer) {
+          footer.style.transition = 'none';
+          footer.style.opacity = '1';
+        }
+        progress = 0;
+        looping = false;
+        render();
+      }, 470);
+    };
+
+    const addIntent = (amount: number) => {
+      if (looping || !atBottom()) return;
+      lastIntentAt = performance.now();
+      progress = Math.min(1, progress + amount / FILL_DISTANCE);
+      render();
+      if (progress >= 1) triggerLoop();
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY > 0) markDownIntent();
+      if (e.deltaY > 0) addIntent(e.deltaY);
     };
     let lastTouchY: number | null = null;
     const onTouchStart = (e: TouchEvent) => {
@@ -59,30 +95,44 @@ export default function InfiniteLoop() {
     };
     const onTouchMove = (e: TouchEvent) => {
       const y = e.touches[0]?.clientY ?? null;
-      if (lastTouchY !== null && y !== null && y < lastTouchY) markDownIntent();
+      if (lastTouchY !== null && y !== null && y < lastTouchY) {
+        addIntent(lastTouchY - y);
+      }
       lastTouchY = y;
     };
     const onKeyDown = (e: KeyboardEvent) => {
       if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) {
-        markDownIntent();
+        addIntent(140);
       }
     };
 
-    const handleScroll = () => {
-      // At the bottom the fixed hero fully fills the viewport — identical to the
-      // real Hero at the top, so snapping to 0 is seamless.
-      if (atBottom() && performance.now() - lastDownIntentAt < INTENT_MS) {
-        loopToTop();
+    // Drain the bar back down when the visitor stops pushing (so it only fills
+    // with sustained intent) and reset it the moment they scroll away.
+    let raf = 0;
+    const tick = () => {
+      if (!looping) {
+        if (!atBottom() && progress > 0) {
+          progress = 0;
+          render();
+        } else if (
+          progress > 0 &&
+          performance.now() - lastIntentAt > 130
+        ) {
+          progress = Math.max(0, progress - 0.02);
+          render();
+        }
       }
+      raf = requestAnimationFrame(tick);
     };
+    raf = requestAnimationFrame(tick);
 
     window.addEventListener('wheel', onWheel, { passive: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
     window.addEventListener('keydown', onKeyDown);
 
-    // Lenis (its virtual scroll doesn't emit native scroll events) is created by
-    // SmoothScroll's effect, which runs after this one — poll until it exists.
+    // Keep the bar's visibility in sync while scrolling (Lenis drives scroll).
+    const handleScroll = () => render();
     let detach = () => {};
     let tries = 0;
     const id = window.setInterval(() => {
@@ -96,7 +146,10 @@ export default function InfiniteLoop() {
       }
     }, 50);
 
+    render();
+
     return () => {
+      cancelAnimationFrame(raf);
       window.clearInterval(id);
       detach();
       window.removeEventListener('wheel', onWheel);
@@ -110,8 +163,8 @@ export default function InfiniteLoop() {
 
   return (
     <>
-      {/* Fixed hero layer — sits behind the content/footer and is revealed as
-          the footer scrolls up over it. */}
+      {/* Fixed hero layer — sits behind the content/footer and is revealed (by
+          fading the footer) when the loop fires. */}
       <div
         aria-hidden
         className="fixed inset-0 z-0 bg-[#131214] text-white overflow-hidden pointer-events-none"
@@ -163,9 +216,34 @@ export default function InfiniteLoop() {
         </div>
       </div>
 
-      {/* Scroll spacer: lets the footer slide up and off, revealing the fixed
-          hero behind it. Transparent, so the hero shows through. */}
-      <div ref={ref} className="relative h-screen" />
+      {/* Loop progress bar — pinned to the bottom of the footer. Fills from
+          continued downward scroll once the footer is fully in view; the loop
+          only fires when it's full. */}
+      <div
+        ref={progressRef}
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 bottom-5 z-[60] flex flex-col items-center gap-2 opacity-0 transition-opacity duration-300 ease-out"
+        style={{ opacity: 0 }}
+      >
+        <span className="flex items-center gap-2 text-[10px] font-light uppercase tracking-[0.25em] text-white/70">
+          Keep scrolling to start over
+          <span className="loop-arrow text-white/70">&darr;</span>
+        </span>
+        <div className="h-[3px] w-40 overflow-hidden rounded-full bg-white/15 sm:w-56">
+          <div ref={fillRef} className="h-full w-0 rounded-full bg-white" />
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes loopArrowBob {
+          0%, 100% { transform: translateY(0); opacity: 0.6; }
+          50% { transform: translateY(3px); opacity: 1; }
+        }
+        .loop-arrow {
+          display: inline-block;
+          animation: loopArrowBob 1.4s ease-in-out infinite;
+        }
+      `}</style>
     </>
   );
 }

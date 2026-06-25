@@ -66,9 +66,9 @@ const ScrollTextEffect = () => {
     <div className="bg-black">
       {/* Spacer to enable scrolling */}
       
-      <section className="flex items-center justify-center px-6 md:px-12 lg:px-24 py-20 sm:py-24 md:py-32">
-        <div className="w-full mx-auto">
-          <h2 
+      <section className="flex items-center justify-center py-20 sm:py-24 md:py-32">
+        <div className="w-full max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24">
+          <h2
             ref={textRef}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-tight text-center pt-16 sm:pt-20 md:pt-24 lg:pt-32"
           >
