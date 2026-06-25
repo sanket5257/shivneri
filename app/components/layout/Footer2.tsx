@@ -719,7 +719,7 @@ const FOOTER_CSS = `
   font-weight: 400;
 }
 .tf2-big{
-  font-weight: 400;
+  font-weight: 600;
   font-size: clamp(2.4rem, 6vw, 4.5rem);
   line-height: 0.92;
   letter-spacing: -0.04em;

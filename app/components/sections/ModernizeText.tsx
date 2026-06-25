@@ -1,120 +1,84 @@
 'use client';
-import React, { useRef, useEffect } from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+const SHOWREEL =
+  'https://cdn.prod.website-files.com/656a0c59bc8ad4e5fa92b68e%2F6863ef7ac0ea8a4fea01cff0_Showre%CC%81el-transcode.mp4';
+
+const TEXT =
+  'We help ambitious companies ship faster, scale smarter, and modernize without compromise.';
+const WORDS = TEXT.split(' ');
 
 const ScrollTextEffect = () => {
-  const textRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    if (!textRef.current) return;
-    
-    const chars = textRef.current.querySelectorAll('.char');
-    const ctx = gsap.context(() => {
-      // Initial state for all characters
-      gsap.set(chars, {
-        opacity: 0.3,
-        color: '#666666',
-        textShadow: 'none',
-        y: 20
-      });
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
-      // Create a timeline for the text reveal
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: 'top 80%',
-          end: 'bottom 40%',
-          scrub: 1,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            
-            // Animate each character with a staggered effect
-            chars.forEach((char, i) => {
-              const charProgress = (progress * chars.length - i) / 10;
-              const opacity = Math.min(Math.max(0.3 + charProgress * 0.7, 0.3), 1);
-              const glowIntensity = Math.min(Math.max(charProgress, 0), 1);
-              
-              const element = char as HTMLElement;
-              
-              gsap.to(element, {
-                opacity: opacity,
-                y: -10 * (1 - progress),
-                color: glowIntensity > 0 ? '#ffffff' : '#666666',
-                duration: 0.5,
-                ease: 'power2.out'
-              });
-            });
-          }
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const words = headingRef.current!.querySelectorAll('.mt-word');
+
+      // Each word flies in from the right and settles into place as the heading
+      // scrolls into view — same reveal as the About section, but tied to the
+      // section's own scroll (no pin) so the text + video read as one block.
+      gsap.fromTo(
+        words,
+        { opacity: 0, x: 140 },
+        {
+          opacity: 1,
+          x: 0,
+          ease: 'power2.out',
+          stagger: 0.5,
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 82%',
+            end: 'top 32%',
+            scrub: 1,
+          },
         }
-      });
-    }, textRef);
-    
-    return () => ctx.revert(); // Cleanup
+      );
+    });
+
+    return () => ctx.revert();
   }, []);
-  
-  const text = "We help ambitious\ncompanies ship faster, scale\nsmarter, and modernize\nwithout compromise.";
-  // Split by spaces but preserve newlines
-  const words = text.split(/(\s+)/).filter(word => word.trim() !== '' || word.includes('\n'));
-  
+
   return (
-    <div className="bg-black">
-      {/* Spacer to enable scrolling */}
-      
-      <section className="flex items-center justify-center py-20 sm:py-24 md:py-32">
-        <div className="w-full max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24">
-          <h2
-            ref={textRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-tight text-center pt-16 sm:pt-20 md:pt-24 lg:pt-32"
-          >
-            {words.map((word, wordIndex) => (
-              <React.Fragment key={wordIndex}>
-                {word === '\n' ? (
-                  <br key={`br-${wordIndex}`} />
-                ) : (
-                  <>
-                    {word.split('').map((char, charIndex) => (
-                      <span 
-                        key={`${wordIndex}-${charIndex}`} 
-                        className="char inline-block"
-                        style={{ 
-                          opacity: 0.3,
-                          color: '#666666',
-                          display: 'inline-block',
-                          willChange: 'transform, opacity, text-shadow, color',
-                          whiteSpace: 'pre-wrap',
-                          wordBreak: 'break-word'
-                        }}
-                      >
-                        {char}
-                      </span>
-                    ))}
-                    {wordIndex < words.length - 1 && words[wordIndex + 1] !== '\n' && (
-                      <span 
-                      className="char" 
-                      style={{ 
-                        opacity: 0.3, 
-                        color: '#666666',
-                        whiteSpace: 'pre-wrap',
-                        wordBreak: 'break-word'
-                      }}
-                    > 
-                      {' '}
-                    </span>
-                    )}
-                  </>
-                )}
-              </React.Fragment>
-            ))}
-          </h2>
+    <section className="relative overflow-hidden bg-black">
+      {/* Modernize statement — word-by-word reveal */}
+      <div className="mx-auto max-w-[1728px] px-6 pt-28 pb-16 md:px-12 md:pt-40 md:pb-24 lg:px-24">
+        <h2
+          ref={headingRef}
+          className="max-w-6xl text-2xl font-semibold leading-[1.22] tracking-tight text-neutral-100 sm:text-3xl md:text-4xl"
+        >
+          {WORDS.map((word, i) => (
+            <span
+              key={i}
+              className="mt-word inline-block will-change-transform"
+              style={{ marginRight: '0.25em' }}
+            >
+              {word}
+            </span>
+          ))}
+        </h2>
+      </div>
+
+      {/* Showreel video — same section + same max-width as the other sections */}
+      <div className="mx-auto max-w-[1728px] px-6 pb-20 md:px-12 md:pb-28 lg:px-24">
+        <div className="relative h-[60vh] w-full overflow-hidden rounded-2xl md:h-[80vh] md:rounded-3xl">
+          <video
+            className="h-full w-full object-cover"
+            src={SHOWREEL}
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
         </div>
-      </section>
-      
-      {/* <div className="h-screen" /> */}
-      {/* Bottom spacer */}
-    </div>
+      </div>
+    </section>
   );
 };
 

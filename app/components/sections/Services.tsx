@@ -25,8 +25,8 @@ const ServicesSection = () => {
     // First row - 2 services
     {
       id: 1,
-      title: 'Product Design',
-      description: 'We craft digital products that solve real problems and delight users from concept to launch.',
+      title: 'AI & Automation',
+      description: 'We build AI-powered features, agents, and workflow automation that turn your data into outcomes and remove repetitive, manual work.',
       videoSrc: '/assets/branding.mp4'
     },
     {
