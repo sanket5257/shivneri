@@ -1,4 +1,5 @@
 import Hero from './components/sections/Hero';
+import AboutApproach from './components/sections/AboutApproach';
 import WhyUs from './components/sections/WhyUs';
 import ModernizeText from './components/sections/ModernizeText';
 import CTA from './components/sections/CTA';
@@ -9,6 +10,7 @@ export default function Home() {
     <>
       <main className="min-h-screen flex flex-col">
         <Hero />
+        <AboutApproach />
         <WhyUs />
         <ModernizeText />
         <Services />

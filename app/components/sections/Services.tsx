@@ -181,13 +181,9 @@ const ServicesSection = () => {
             <span>it'z how we show up.</span>
           </h1>
           <div ref={ctaRef} className="flex justify-end mt-6 sm:mt-8">
-            <Link href="/services" className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 border border-neutral-700 rounded-full hover:border-neutral-500 transition-colors text-sm sm:text-base">
-              <span className="text-neutral-400">Learn more</span>
-              <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full border border-neutral-700 flex items-center justify-center flex-shrink-0">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="text-neutral-400 w-3.5 h-3.5 sm:w-4 sm:h-4">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+            <Link href="/services" className="group inline-flex items-center justify-center space-x-2 px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition-all duration-300 text-sm sm:text-base">
+              <span className="relative z-10">Learn more</span>
+              <span className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>

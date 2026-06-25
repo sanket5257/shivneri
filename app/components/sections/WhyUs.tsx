@@ -57,13 +57,9 @@ const WhyUptic = () => {
             <span className="inline-block">Built isn't Enough.</span>
           </h1>
           <div className="explore-link flex justify-end mt-6 sm:mt-8">
-            <Link href="/how-we-work" className="explore-link flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 rounded-full hover:border-gray-500 transition-all duration-300 hover:bg-gray-900/30 text-sm sm:text-base">
-              <span className="text-gray-400">Explore how we work</span>
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-gray-700 flex items-center justify-center flex-shrink-0">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="text-gray-400 w-3.5 h-3.5 sm:w-4 sm:h-4">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+            <Link href="/how-we-work" className="explore-link group inline-flex items-center justify-center space-x-2 px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition-all duration-300 text-sm sm:text-base">
+              <span className="relative z-10">Explore how we work</span>
+              <span className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>
@@ -76,7 +72,7 @@ const WhyUptic = () => {
             className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
           >
             <div className="flex justify-between items-start mb-6">
-              <h2 className="text-3xl font-light tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
                 Full-Stack + Full-Time Engineering
               </h2>
               <div className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -86,7 +82,7 @@ const WhyUptic = () => {
               </div>
             </div>
             
-            <p className="text-gray-400 mb-12 max-w-lg leading-relaxed">
+            <p className="text-gray-400 mb-12 max-w-lg leading-relaxed text-sm sm:text-base">
               No Contractors. No bloated teams. Just high quality deeply invested engineers who own who own full-stack end-to-end delivery.
             </p>
 
@@ -109,7 +105,7 @@ const WhyUptic = () => {
             className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
           >
             <div className="flex justify-between items-start mb-6">
-              <h2 className="text-3xl font-light tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
                 Flexible, fractional product teams
               </h2>
               <div className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -119,7 +115,7 @@ const WhyUptic = () => {
               </div>
             </div>
             
-            <p className="text-gray-400 mb-12 max-w-lg leading-relaxed">
+            <p className="text-gray-400 mb-12 max-w-lg leading-relaxed text-sm sm:text-base">
               Need an expert, a specialist or a full-stack team? We plug in fast, ramp up instantly, and scale to deliver with precision and deep technical ownership.
             </p>
 
@@ -157,7 +153,7 @@ const WhyUptic = () => {
               {/* Right: Content */}
               <div className="p-8 lg:p-12 flex flex-col justify-center">
                 <div className="flex justify-between items-start mb-6">
-                  <h2 className="text-3xl lg:text-4xl font-light tracking-tight">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
                     We Build It. We Run It. We Innovate It.
                   </h2>
                   <div className="w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-4">
@@ -167,7 +163,7 @@ const WhyUptic = () => {
                   </div>
                 </div>
                 
-                <p className="text-neutral-400 leading-relaxed text-lg">
+                <p className="text-neutral-400 leading-relaxed text-sm sm:text-base">
                   Uptic delivers full-lifecycle engineering — from secure platform foundations to scalable applications and continuous innovation. No handoffs. No context lost.
                 </p>
               </div>
