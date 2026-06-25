@@ -43,9 +43,6 @@ const ScrollTextEffect = () => {
                 opacity: opacity,
                 y: -10 * (1 - progress),
                 color: glowIntensity > 0 ? '#ffffff' : '#666666',
-                textShadow: glowIntensity > 0 
-                  ? `0 0 ${20 + glowIntensity * 20}px rgba(255, 140, 66, ${0.7 + glowIntensity * 0.3})`
-                  : 'none',
                 duration: 0.5,
                 ease: 'power2.out'
               });

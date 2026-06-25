@@ -14,42 +14,41 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 const HEADING: { text: string; accent?: boolean }[] = [
   {
     text:
-      "I've built digital experiences for established organisations, startups, and everything in between. The focus stays the same:",
+      'Shivneri Systems builds software for startups and enterprises alike — shipping cloud-native platforms and modernizing the legacy systems holding teams back. The focus stays the same:',
   },
-  { text: 'systems that scale,', accent: true },
+  { text: 'engineering that scales,', accent: true },
   {
     text:
-      'solving the communication problems that actually matter, and keeping',
+      'automation that removes friction, and a team that owns delivery from',
   },
-  { text: 'people first', accent: true },
-  { text: 'throughout the entire process.' },
+  { text: 'first commit to production.', accent: true },
 ];
 
 const PARAGRAPHS = [
-  'I design digital experiences that work for the people using them and the teams maintaining them. Start with what users actually need, map flows, test early, build interfaces that don’t need manuals.',
-  'The work spans UX, interaction design, information architecture, and brand evolution. Design for real conditions. Messy ones. If users get lost or the client can’t update content without breaking something, that’s a problem. Good design holds up when things get complicated.',
+  'We’re a lean, global crew of engineers, architects, and cloud experts. We design and build full-stack applications, modernize legacy systems, and stand up the platforms and pipelines that let teams ship with confidence.',
+  'We build it, run it, and keep innovating — from secure cloud foundations to scalable applications and automation. No handoffs, no bloated teams, no context lost. Just deeply invested engineers who own delivery end to end.',
 ];
 
 const CAPABILITIES = [
   {
-    title: 'Strategy',
+    title: 'Development',
     body:
-      'Positioning, product direction, and the roadmap that gets you from idea to shipped.',
+      'Full-stack engineering — applications, APIs, and services built to ship fast and scale cleanly.',
   },
   {
-    title: 'User Experience',
+    title: 'Platforms',
     body:
-      'Research, flows, and interfaces that feel obvious to the people using them.',
+      'Cloud-native foundations, internal developer platforms, and CI/CD pipelines that remove friction.',
   },
   {
-    title: 'Design',
+    title: 'Operate & Innovate',
     body:
-      'Visual systems and interaction detail that hold up under real-world conditions.',
+      'We run what we build — observability, automation, and continuous improvement, with no handoffs.',
   },
   {
-    title: 'Interaction',
+    title: 'Security & Cloud',
     body:
-      'Motion and micro-interactions that make the product feel alive and responsive.',
+      'App security, compliance, and cloud cost optimization baked in from day one.',
   },
 ];
 

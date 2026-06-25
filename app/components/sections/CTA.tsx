@@ -77,9 +77,9 @@ export default function HeroSection() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-neutral-500 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-neutral-500 leading-tight">
             If you only read one thing,{' '}
-            <span className="font-normal text-white">make it this.</span>
+            <span className="text-white">make it this.</span>
           </h1>
         </div>
 

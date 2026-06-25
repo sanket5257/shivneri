@@ -163,6 +163,7 @@ body::-webkit-scrollbar,
   color: white;
   font-weight: 500;
   border-radius: 0.625rem;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
   isolation: isolate;

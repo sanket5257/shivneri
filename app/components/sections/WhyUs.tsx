@@ -9,31 +9,54 @@ const WhyUptic = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(() => {
-    // Add hover effect for each card
-    cardsRef.current.forEach((card) => {
-      if (!card) return;
+    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    const cleanups: Array<() => void> = [];
 
-      card.addEventListener('mouseenter', () => {
-        gsap.to(cardsRef.current, {
-          opacity: 0.4,
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-        gsap.to(card, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      });
+    cards.forEach((card) => {
+      const video = card.querySelector('video');
 
-      card.addEventListener('mouseleave', () => {
-        gsap.to(cardsRef.current, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.out',
+      const enter = () => {
+        cards.forEach((c) => {
+          const active = c === card;
+          gsap.to(c, {
+            opacity: active ? 1 : 0.35,
+            scale: active ? 1.025 : 0.97,
+            y: active ? -10 : 0,
+            filter: active ? 'blur(0px)' : 'blur(2px)',
+            borderColor: active
+              ? 'rgba(255,255,255,0.16)'
+              : 'rgba(38,38,38,0.5)',
+            duration: 0.7,
+            ease: 'power3.out',
+          });
         });
+        if (video) gsap.to(video, { scale: 1.08, duration: 1, ease: 'power3.out' });
+      };
+
+      const leave = () => {
+        cards.forEach((c) => {
+          gsap.to(c, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            borderColor: 'rgba(38,38,38,0.5)',
+            duration: 0.7,
+            ease: 'power3.out',
+          });
+        });
+        if (video) gsap.to(video, { scale: 1, duration: 1, ease: 'power3.out' });
+      };
+
+      card.addEventListener('mouseenter', enter);
+      card.addEventListener('mouseleave', leave);
+      cleanups.push(() => {
+        card.removeEventListener('mouseenter', enter);
+        card.removeEventListener('mouseleave', leave);
       });
     });
+
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   const addToRefs = (el: HTMLDivElement | null, index: number) => {
@@ -67,9 +90,9 @@ const WhyUptic = () => {
         {/* Feature Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Full-Stack Engineering Card */}
-          <div 
+          <div
             ref={el => addToRefs(el, 0)}
-            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
+            className="group relative cursor-pointer will-change-transform bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden"
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
@@ -100,9 +123,9 @@ const WhyUptic = () => {
           </div>
 
           {/* Flexible Teams Card */}
-          <div 
+          <div
             ref={el => addToRefs(el, 1)}
-            className="group relative bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
+            className="group relative cursor-pointer will-change-transform bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden"
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
@@ -133,9 +156,9 @@ const WhyUptic = () => {
           </div>
 
           {/* Bottom Full-Width Card */}
-          <div 
+          <div
             ref={el => addToRefs(el, 2)}
-            className="group relative lg:col-span-2 bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl overflow-hidden hover:border-neutral-700/50 transition-all duration-500"
+            className="group relative cursor-pointer will-change-transform lg:col-span-2 bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl overflow-hidden"
           >
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Left: Video Background */}
