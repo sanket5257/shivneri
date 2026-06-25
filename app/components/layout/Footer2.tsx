@@ -227,6 +227,13 @@ function StringText({
     function playPluck(freq: number, amp: number) {
       const ac = ensureAudio();
       if (!ac || !master) return;
+      // Don't schedule into a still-locked context — the notes would land in
+      // the past and play silently. Nudge a resume and skip this pluck; once a
+      // gesture unlocks it, subsequent hovers sound normally.
+      if (ac.state !== 'running') {
+        ac.resume().catch(() => {});
+        return;
+      }
       const t = ac.currentTime;
       const a = Math.min(0.42, amp);
       const nodes: AudioNode[] = [];
@@ -494,10 +501,29 @@ function StringText({
       ptr.x = -9999;
       ptr.y = -9999;
     };
-    // browsers only allow audio after a user gesture — pre-warm it as soon
-    // as the visitor does ANYTHING on the page so sound is ready first time
-    const onGesture = () => ensureAudio();
-    const warmEvents = ['pointerdown', 'touchstart', 'keydown'] as const;
+    // Browsers refuse to start an AudioContext until a real user gesture —
+    // hovering and scrolling don't count, only pointer/touch/key/click do.
+    // Resume on the first such gesture anywhere on the page and keep listening
+    // until the context is actually `running`, then stop. This is what makes
+    // the first hover reliably produce sound without needing a click/refresh.
+    const unlockEvents = [
+      'pointerdown',
+      'mousedown',
+      'touchstart',
+      'keydown',
+      'click',
+    ] as const;
+    const unlock = () => {
+      const ac = ensureAudio();
+      if (!ac) return;
+      const settle = () => {
+        if (ac.state === 'running') {
+          unlockEvents.forEach((ev) => window.removeEventListener(ev, unlock));
+        }
+      };
+      if (ac.state !== 'running') ac.resume().then(settle).catch(() => {});
+      else settle();
+    };
 
     sample();
     ptr.px = ptr.x;
@@ -506,9 +532,8 @@ function StringText({
 
     canvas.addEventListener('pointermove', onMove);
     canvas.addEventListener('pointerleave', onLeave);
-    canvas.addEventListener('pointerdown', onGesture);
-    warmEvents.forEach((ev) =>
-      window.addEventListener(ev, onGesture, { once: true, passive: true })
+    unlockEvents.forEach((ev) =>
+      window.addEventListener(ev, unlock, { passive: true })
     );
 
     let rt: ReturnType<typeof setTimeout>;
@@ -522,8 +547,7 @@ function StringText({
       cancelAnimationFrame(raf);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerleave', onLeave);
-      canvas.removeEventListener('pointerdown', onGesture);
-      warmEvents.forEach((ev) => window.removeEventListener(ev, onGesture));
+      unlockEvents.forEach((ev) => window.removeEventListener(ev, unlock));
       ro.disconnect();
       clearTimeout(rt);
       if (audio) {

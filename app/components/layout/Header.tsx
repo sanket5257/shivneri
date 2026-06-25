@@ -20,7 +20,6 @@ const Header = () => {
     { id: 'services', label: 'Services', path: '/services' },
     { id: 'work', label: 'Work', path: '/work' },
     { id: 'how-we-work', label: 'How We Work', path: '/how-we-work' },
-    { id: 'customer-stories', label: 'Customer Stories', path: '/customer-stories' },
     { id: 'products', label: 'Products', path: '/products' },
   ];
 
@@ -55,6 +54,69 @@ const Header = () => {
 
   return (
     <>
+      {/* Liquid-glass refraction source.
+          Apple's "Liquid Glass" bends light hard at the EDGES (a thick glass
+          lens) while the centre stays clear. We drive feDisplacementMap with a
+          bevel "normal map" instead of turbulence: R encodes horizontal slope,
+          G vertical slope, both neutral (128) in the middle and ramping to the
+          extremes only near the rim — so the backdrop magnifies at the edges
+          and is left untouched in the centre. */}
+      <svg
+        aria-hidden
+        width="0"
+        height="0"
+        style={{ position: 'absolute', pointerEvents: 'none' }}
+      >
+        <filter
+          id="liquid-glass"
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+          colorInterpolationFilters="sRGB"
+        >
+          <feImage
+            href={`data:image/svg+xml,${encodeURIComponent(
+              `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'>` +
+                `<defs>` +
+                `<linearGradient id='x' x1='0' y1='0' x2='1' y2='0'>` +
+                `<stop offset='0' stop-color='rgb(0,0,0)'/>` +
+                `<stop offset='0.16' stop-color='rgb(128,0,0)'/>` +
+                `<stop offset='0.84' stop-color='rgb(128,0,0)'/>` +
+                `<stop offset='1' stop-color='rgb(255,0,0)'/>` +
+                `</linearGradient>` +
+                `<linearGradient id='y' x1='0' y1='0' x2='0' y2='1'>` +
+                `<stop offset='0' stop-color='rgb(0,0,0)'/>` +
+                `<stop offset='0.16' stop-color='rgb(0,128,0)'/>` +
+                `<stop offset='0.84' stop-color='rgb(0,128,0)'/>` +
+                `<stop offset='1' stop-color='rgb(0,255,0)'/>` +
+                `</linearGradient>` +
+                `</defs>` +
+                `<rect width='100' height='100' fill='url(#x)'/>` +
+                `<rect width='100' height='100' fill='url(#y)' style='mix-blend-mode:screen'/>` +
+                `</svg>`
+            )}`}
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+            result="map"
+          />
+          {/* slightly different scales per channel = faint chromatic fringe
+              at the rim, like real glass */}
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="map"
+            scale="54"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="disp"
+          />
+          <feGaussianBlur in="disp" stdDeviation="0.4" />
+        </filter>
+      </svg>
+
       <header className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 lg:px-24 py-6 md:py-8">
         <nav className="mx-auto flex items-start justify-between">
           {/* Left: Logo */}
@@ -70,20 +132,14 @@ const Header = () => {
             />
           </Link>
 
-          {/* Center: expanding Menu panel (matches Ecrin .menu-panel) */}
+          {/* Center: expanding Menu panel — Apple "Liquid Glass" */}
           <div
             ref={menuRef}
-            className="absolute left-1/2 -translate-x-1/2 z-50 w-64 sm:w-80 md:w-96 overflow-hidden rounded-2xl"
+            className={`liquid-glass ${
+              isOpen ? 'liquid-glass--raised' : ''
+            } absolute left-1/2 -translate-x-1/2 z-50 w-64 sm:w-80 md:w-96 rounded-2xl`}
             style={{
               maxHeight: isOpen ? 420 : 60,
-              background:
-                'linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
-              backdropFilter: 'blur(40px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              boxShadow: isOpen
-                ? 'inset 0 1px 0 0 rgba(255,255,255,0.18), 0 24px 60px -12px rgba(0,0,0,0.7)'
-                : 'inset 0 1px 0 0 rgba(255,255,255,0.14), 0 12px 32px -8px rgba(0,0,0,0.5)',
               transition:
                 'max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
@@ -94,7 +150,7 @@ const Header = () => {
               onMouseEnter={() => setMenuHover(true)}
               onMouseLeave={() => setMenuHover(false)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              className="flex w-full cursor-pointer items-center justify-between px-6 text-white"
+              className="relative z-20 flex w-full cursor-pointer items-center justify-between px-6 text-white"
               style={{ height: 60 }}
             >
               <span
@@ -149,7 +205,7 @@ const Header = () => {
             </button>
 
             {/* Expanding content */}
-            <div className="px-6 pb-6">
+            <div className="relative z-20 px-6 pb-6">
               <nav className="flex flex-col">
                 {navItems.map((item, index) => (
                   <Link
