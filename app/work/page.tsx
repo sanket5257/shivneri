@@ -1,335 +1,273 @@
-'use client'
+'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Filter {
-  id: string;
-  label: string;
-}
-
 interface Project {
   id: number;
   title: string;
-  video: string;
-  thumbnail: string;
-  url: string;
   tags: string[];
-  category: string;
+  description: string;
+  collaboration?: string;
+  gallery: string[];
 }
 
-const WorkSection = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+/**
+ * "Index of Work" — layout modelled on the harrygeorge.design/work index.
+ *
+ * NOTE: the projects, copy and imagery below are PLACEHOLDERS (generic samples +
+ * Unsplash photos). Swap in Shivneri's real case studies and assets — do not
+ * ship sample content to production.
+ */
+// Gallery imagery — served entirely from /public/assets/images/work. Each
+// project pulls a rotated slice of the shared pool so every marquee has enough
+// frames to scroll seamlessly. Swap in real per-project assets when available.
+const GALLERY_POOL = [
+  '/assets/images/work/69826a5f2c5673280267bc6b_index-listing_raidiam_004.webp',
+  '/assets/images/work/69826a5fa05d4cc3d7b16b9d_index-listing_raidiam_005.webp',
+  '/assets/images/work/69826a5f1a3c2612a19401db_index-listing_raidiam_006.webp',
+  '/assets/images/work/6985308b60e7953565164ed4_index-listing_friendmts_001.webp',
+  '/assets/images/work/6985308b91fb9326e05e207c_index-listing_friendmts_002.webp',
+  '/assets/images/work/6985308b6910b13970ab8814_index-listing_friendmts_005.webp',
+  '/assets/images/work/6985308b40a876ccff082664_index-listing_friendmts_007.webp',
+  '/assets/images/work/69834444e0f81205ed5c9517_index-listing_tcm_001.webp',
+  '/assets/images/work/69834444c27db26bbea632fc_index-listing_tcm_002.webp',
+  '/assets/images/work/69834444e4e3117ba169eeec_index-listing_tcm_003.webp',
+  '/assets/images/work/69834444871e181f135a930e_index-listing_tcm_004.webp',
+  '/assets/images/work/69853330fa367f04965f0897_fae1556e5e7f7a3fc2deaa81ac7bd194_index-listing_hitachi_001.webp',
+  '/assets/images/work/698533308dfb0f7900872a18_2ed58d9cc5d56fe631db21086aa58f01_index-listing_hitachi_002.webp',
+  '/assets/images/work/69853330ae0073900d288728_c0b50fbcfffb57b59ee116be1875e92a_index-listing_hitachi_003.webp',
+  '/assets/images/work/698533301a7b4067f7946aaf_effb88e593e42ae103bdfa44e5fb24cd_index-listing_hitachi_004.webp',
+];
 
-  const filters: Filter[] = [
-    { id: 'all', label: 'All' },
-    { id: 'ecommerce', label: 'E-commerce' },
-    { id: 'food', label: 'Food' },
-    { id: 'education', label: 'Education' },
-    { id: 'entertainment', label: 'Entertainment' },
-    { id: 'campaigns', label: 'Campaigns' },
-    { id: 'nonprofit', label: 'Nonprofit' },
-    { id: 'financial', label: 'Financial' },
-  ];
+const galleryFor = (offset: number): string[] =>
+  Array.from(
+    { length: 6 },
+    (_, k) => GALLERY_POOL[(offset * 3 + k) % GALLERY_POOL.length]
+  );
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'HerrBebe',
-      video: '/assets/Web_design.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-      url: 'https://example.com/herrbebe',
-      tags: ['UX/UI Design', 'Development'],
-      category: 'ecommerce'
-    },
-    {
-      id: 2,
-      title: 'Ikigai',
-      video: '/assets/Web_design.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
-      url: 'https://example.com/ikigai',
-      tags: ['UX/UI Design'],
-      category: 'food'
-    },
-    {
-      id: 3,
-      title: 'My Intellect',
-      video: '/assets/Web_design.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80',
-      url: 'https://example.com/myintellect',
-      tags: ['Mobile App', 'UX/UI Design', 'Development'],
-      category: 'education'
-    },
-    {
-      id: 4,
-      title: 'eDrogeria',
-      video: '/assets/Web_design.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
-      url: 'https://example.com/edrogeria',
-      tags: ['UX/UI Design', 'Development'],
-      category: 'ecommerce'
-    },
-    {
-      id: 5,
-      title: 'StreamVibe',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99790-large.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&q=80',
-      url: 'https://example.com/streamvibe',
-      tags: ['Web Design', 'Development'],
-      category: 'entertainment'
-    },
-    {
-      id: 6,
-      title: 'FitTrack Pro',
-      video: 'https://assets.mixkit.co/videos/preview/mixkit-young-people-using-their-smartphones-in-a-library-4917-large.mp4',
-      thumbnail: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=80',
-      url: 'https://example.com/fittrack',
-      tags: ['Mobile App', 'UX/UI Design'],
-      category: 'health'
-    },
-  ];
+const projects: Project[] = [
+  {
+    id: 1,
+    title: 'Nimbus Cloud',
+    tags: ['Product Design', 'UX/UI Design', 'Development', 'Design System'],
+    description:
+      'Nimbus needed a developer platform that feels as fast as it runs. We rebuilt the marketing site and console around a cloud-native design system — with motion, live docs, and an onboarding flow engineers actually finish.',
+    collaboration: 'SHIVNERI / STUDIO',
+    gallery: galleryFor(0),
+  },
+  {
+    id: 2,
+    title: 'FinEdge',
+    tags: ['UX/UI Design', 'Brand Evolution', 'Development'],
+    description:
+      'FinEdge turns messy financial data into clarity. We designed a dashboard and refreshed the brand so complex portfolios become understandable at a glance — fast to read, faster to act on.',
+    collaboration: 'SHIVNERI / STUDIO',
+    gallery: galleryFor(1),
+  },
+  {
+    id: 3,
+    title: 'MediSync',
+    tags: ['Mobile App', 'UX/UI Design', 'Accessibility'],
+    description:
+      'MediSync connects clinics and patients in real time. We shipped a mobile app and component library built for trust, speed and accessibility — from first appointment to follow-up.',
+    collaboration: 'SHIVNERI / STUDIO',
+    gallery: galleryFor(2),
+  },
+  {
+    id: 4,
+    title: 'Orbit Commerce',
+    tags: ['Web Design', 'Development', 'Brand Evolution'],
+    description:
+      'Orbit sells globally. We rebuilt the storefront for international expansion — modular, multi-language, and simple to maintain — while keeping checkout fast on every device.',
+    collaboration: 'SHIVNERI / STUDIO',
+    gallery: galleryFor(3),
+  },
+  {
+    id: 5,
+    title: 'EduSpark',
+    tags: ['Product Design', 'UX/UI Design', 'Development'],
+    description:
+      'EduSpark makes learning stick. We created a platform and content system that scales across courses, cohorts and campaigns — for learners on the move and teams behind the scenes.',
+    collaboration: 'SHIVNERI / STUDIO',
+    gallery: galleryFor(4),
+  },
+];
+
+export default function WorkPage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const marqueeRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+    if (typeof window === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
 
-    gsap.set(cards, { opacity: 0, y: 60, scale: 0.95 });
+    const lenis = (window as unknown as { lenis?: { on: Function; off: Function } })
+      .lenis;
+    const onScroll = () => ScrollTrigger.update();
+    if (lenis) lenis.on('scroll', onScroll);
 
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top 80%',
-      onEnter: () => {
-        gsap.to(cards, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-        });
-      },
-    });
+    let ctx: ReturnType<typeof gsap.context> | undefined;
+
+    // Build reveals after layout/images settle so soft-navigation never leaves
+    // rows stuck invisible (same hardening used elsewhere in the app).
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const reduceMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches;
+
+        ctx = gsap.context(() => {
+          // Row reveal on scroll
+          gsap.utils.toArray<HTMLElement>('.work-row').forEach((row) => {
+            gsap.fromTo(
+              row,
+              { opacity: 0, y: 48 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.9,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: row,
+                  start: 'top 82%',
+                  once: true,
+                  invalidateOnRefresh: true,
+                },
+              }
+            );
+          });
+
+          // Gallery marquees — each track holds two identical image sets, so
+          // an xPercent shift of one set wraps seamlessly. Alternate rows run
+          // the opposite direction. Pause on hover.
+          const cleanups: Array<() => void> = [];
+          marqueeRefs.current.forEach((track, i) => {
+            if (!track || reduceMotion) return;
+            const reverse = i % 2 === 1;
+            const tween = gsap.fromTo(
+              track,
+              { xPercent: reverse ? -50 : 0 },
+              {
+                xPercent: reverse ? 0 : -50,
+                duration: 55,
+                ease: 'none',
+                repeat: -1,
+              }
+            );
+            const pause = () => tween.pause();
+            const play = () => tween.play();
+            track.addEventListener('mouseenter', pause);
+            track.addEventListener('mouseleave', play);
+            cleanups.push(() => {
+              track.removeEventListener('mouseenter', pause);
+              track.removeEventListener('mouseleave', play);
+            });
+          });
+
+          return () => cleanups.forEach((fn) => fn());
+        }, rootRef);
+
+        ScrollTrigger.refresh();
+      })
+    );
+
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener('load', onLoad);
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      cancelAnimationFrame(raf);
+      window.removeEventListener('load', onLoad);
+      if (lenis) lenis.off('scroll', onScroll);
+      ctx?.revert();
     };
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    const card = cardsRef.current[index];
-    if (!card) return;
-
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-
-    gsap.to(card, {
-      rotationX: rotateX,
-      rotationY: rotateY,
-      transformPerspective: 1000,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
-  };
-
-  const handleMouseLeave = (index: number) => {
-    const card = cardsRef.current[index];
-    if (!card) return;
-
-    gsap.to(card, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
-  };
-
-  const handleCardHover = (index: number, isHovering: boolean) => {
-    setHoveredCard(isHovering ? index : null);
-    const video = videoRefs.current[index];
-    
-    if (video) {
-      if (isHovering) {
-        video.currentTime = 0;
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log('Video play prevented:', error);
-          });
-        }
-      } else {
-        video.pause();
-        video.currentTime = 0;
-      }
-    }
-  };
-
-  const handleCardClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === activeFilter);
-
-  const getGridClass = (idx: number): string => {
-    const patterns = [
-      'md:col-span-7 md:row-span-1',
-      'md:col-span-5 md:row-span-1',
-      'md:col-span-5 md:row-span-1',
-      'md:col-span-7 md:row-span-1',
-      'md:col-span-6 md:row-span-1',
-      'md:col-span-6 md:row-span-1',
-    ];
-    return patterns[idx % patterns.length];
-  };
-
   return (
-    <div className="relative min-h-screen bg-black text-white py-40 px-6 overflow-hidden">
-     
-
-      {/* Content */}
-      <div className="relative z-10 max-w-[1400px] mx-auto" ref={sectionRef}>
-        {/* Title Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4">
-            <span className="bg-gradient-to-b from-white via-neutral-300 to-neutral-600 bg-clip-text text-transparent">
-              Where stories
-            </span>
-            <br />
-            <span className="bg-gradient-to-b from-white via-neutral-300 to-neutral-600 bg-clip-text text-transparent">
-              become experience
-            </span>
+    <div ref={rootRef} className="min-h-screen bg-[#121212] text-[#f1f1f1]">
+      <div className="mx-auto max-w-[1728px] px-6 md:px-12 lg:px-24 pt-32 sm:pt-40 pb-28 md:pb-40">
+        {/* Page header */}
+        <header className="mb-16 md:mb-24">
+          <p className="text-sm font-medium text-neutral-400 mb-3">Work</p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight tracking-tight">
+            Index of Work
           </h1>
-        </div>
+        </header>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
-          {filters.map((filter) => (
-            <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeFilter === filter.id
-                  ? 'bg-white text-black'
-                  : 'bg-zinc-900/80 backdrop-blur-sm text-neutral-400 hover:bg-zinc-800/80 hover:text-white border border-zinc-800'
-              }`}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Modern Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[400px]">
-          {filteredProjects.map((project, index) => (
-            <div
+        {/* Project index */}
+        <div className="flex flex-col gap-20 md:gap-28">
+          {projects.map((project, projectIndex) => (
+            <article
               key={project.id}
-              ref={(el) => {
-                cardsRef.current[index] = el;
-              }}
-              onMouseMove={(e) => handleMouseMove(e, index)}
-              onMouseEnter={() => handleCardHover(index, true)}
-              onMouseLeave={() => {
-                handleMouseLeave(index);
-                handleCardHover(index, false);
-              }}
-              onClick={() => handleCardClick(project.url)}
-              style={{ transformStyle: 'preserve-3d' }}
-              className={`group relative overflow-hidden rounded-2xl bg-zinc-950 border border-zinc-900 cursor-pointer ${getGridClass(index)}`}
+              className="work-row border-t border-white/10 pt-8 md:pt-10"
             >
-              {/* Video/Image Container */}
-              <div className="relative w-full h-full overflow-hidden">
-                {/* Thumbnail Image */}
-                <img
-                  src={project.thumbnail}
-                  alt={project.title}
-                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${
-                    hoveredCard === index ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
-                  }`}
-                />
-                
-                {/* Video */}
-                <video
-                  ref={(el) => {
-                    videoRefs.current[index] = el;
-                  }}
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                    hoveredCard === index ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <source src={project.video} type="video/mp4" />
-                </video>
-                
-                {/* Subtle Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                
-                {/* Hover Border Glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20" />
-                </div>
+              {/* Title row */}
+              <div className="flex items-start justify-between gap-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight tracking-tight">
+                  {project.title}
+                </h2>
               </div>
 
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <h3 className="text-3xl font-bold mb-4 transform transition-transform duration-300 group-hover:translate-x-2">
-                  {project.title}
-                </h3>
-                
-                <div className="flex flex-wrap gap-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                  {project.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs text-gray-300 border border-white/10"
-                    >
-                      {tag}
+              {/* Tags */}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/15 px-3 py-1 text-xs sm:text-sm text-neutral-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Description + collaboration */}
+              <div className="mt-6 max-w-md">
+                <p className="text-sm sm:text-base leading-relaxed text-neutral-300">
+                  {project.description}
+                </p>
+                {project.collaboration && (
+                  <p className="mt-5 text-xs text-neutral-500">
+                    In collaboration with
+                    <br />
+                    <span className="tracking-[0.18em] text-neutral-400">
+                      {project.collaboration}
                     </span>
+                  </p>
+                )}
+              </div>
+
+              {/* Full-bleed auto-scrolling gallery marquee (GSAP-driven) */}
+              <div className="mt-8 -mx-6 overflow-hidden md:-mx-12 lg:-mx-24">
+                <div
+                  ref={(el) => {
+                    marqueeRefs.current[projectIndex] = el;
+                  }}
+                  className="flex w-max"
+                >
+                  {[...project.gallery, ...project.gallery].map((src, i) => (
+                    <div
+                      key={i}
+                      className="group relative aspect-[3/2] h-[220px] shrink-0 mr-3 overflow-hidden bg-neutral-900 sm:h-[280px] md:h-[360px]"
+                    >
+                      <img
+                        src={src}
+                        alt=""
+                        aria-hidden="true"
+                        draggable={false}
+                        loading="lazy"
+                        className="h-full w-full select-none object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      />
+                    </div>
                   ))}
                 </div>
-
-                {/* Arrow Icon */}
-                <div className="absolute top-8 right-8 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 border border-white/20">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </div>
               </div>
-
-              {/* Minimal Corner Accent */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            </div>
+            </article>
           ))}
         </div>
       </div>
     </div>
   );
-};
-
-export default WorkSection;
+}

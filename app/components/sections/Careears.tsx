@@ -71,27 +71,32 @@ const CareersHero = () => {
         </div>
       </div>
 
-      {/* Scrolling Text */}
+      {/* Scrolling Text — seamless marquee: the phrase repeats and the whole
+          set is duplicated once, so the -50% loop shifts by exactly one copy
+          and the text always reads "Join the Movement". */}
       <div className="overflow-hidden bg-gradient-to-t from-gray-300 to-transparent py-10 sm:py-14 md:py-16">
-        <div 
+        <div
           ref={scrollTextRef}
-          className="flex whitespace-nowrap"
-          style={{ width: '200%' }}
+          className="flex w-max items-center whitespace-nowrap"
         >
-          <div className="flex items-center">
-            <span className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-gray-400 mr-12 sm:mr-16 md:mr-24 lg:mr-32">
-              the Movement
-            </span>
-            <span className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-gray-300 mr-12 sm:mr-16 md:mr-24 lg:mr-32">
-              Join the Movement
-            </span>
-            <span className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-gray-400 mr-12 sm:mr-16 md:mr-24 lg:mr-32">
-              the Movement
-            </span>
-            <span className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-gray-300 mr-12 sm:mr-16 md:mr-24 lg:mr-32">
-              Join the Movement
-            </span>
-          </div>
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              className="flex items-center"
+              aria-hidden={copy === 1}
+            >
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className={`text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold mr-12 sm:mr-16 md:mr-24 lg:mr-32 ${
+                    i % 2 === 0 ? 'text-gray-400' : 'text-gray-300'
+                  }`}
+                >
+                  Join the Movement
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

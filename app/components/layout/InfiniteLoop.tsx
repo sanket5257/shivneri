@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 // Pages that participate in the seamless "scroll past the footer to loop back
 // to the top" experience. Each renders its own fixed hero clone below.
-const LOOP_PATHS = ['/', '/about'];
+const LOOP_PATHS = ['/', '/about', '/work'];
 
 // Mirror of the About hero photo strip (same assets/order/heights as
 // app/about/page.tsx) so the loop clone matches the real hero.
@@ -255,7 +255,7 @@ export default function InfiniteLoop() {
             </div>
           </div>
         </div>
-      ) : (
+      ) : pathname === '/about' ? (
         // About hero clone — static mirror of the /about hero (headline + the
         // bottom-aligned photo marquee) so the loop snaps back seamlessly.
         <div
@@ -288,6 +288,20 @@ export default function InfiniteLoop() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      ) : (
+        // Work index clone — mirror of the /work header so the loop snaps back
+        // seamlessly to the top of the Work page.
+        <div
+          aria-hidden
+          className="fixed inset-0 z-0 overflow-hidden bg-[#121212] text-[#f1f1f1] pointer-events-none"
+        >
+          <div className="mx-auto max-w-[1728px] px-6 md:px-12 lg:px-24 pt-32 sm:pt-40">
+            <p className="text-sm font-medium text-neutral-400 mb-3">Work</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight tracking-tight">
+              Index of Work
+            </h1>
           </div>
         </div>
       )}
