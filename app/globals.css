@@ -272,6 +272,35 @@ body::-webkit-scrollbar,
 }
 
 
+/* About hero — infinite horizontal photo marquee (pixelmatters style) */
+@keyframes aboutHeroMarquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* track holds two identical image sets; -50% wraps seamlessly */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.about-hero-marquee {
+  display: inline-flex;
+  align-items: flex-end;
+  width: max-content;
+  animation: aboutHeroMarquee 45s linear infinite;
+  will-change: transform;
+}
+
+.about-hero-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero-marquee {
+    animation: none;
+  }
+}
+
 .glossy-shine {
   position: relative;
   overflow: hidden;

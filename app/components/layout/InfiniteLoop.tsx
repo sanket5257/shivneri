@@ -4,6 +4,24 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
+// Pages that participate in the seamless "scroll past the footer to loop back
+// to the top" experience. Each renders its own fixed hero clone below.
+const LOOP_PATHS = ['/', '/about'];
+
+// Mirror of the About hero photo strip (same assets/order/heights as
+// app/about/page.tsx) so the loop clone matches the real hero.
+const ABOUT_HERO_IMAGES = [
+  { src: '/assets/images/about-hero/hero-1.jpg', h: 417 },
+  { src: '/assets/images/about-hero/hero-3.jpg', h: 353 },
+  { src: '/assets/images/about-hero/hero-4.jpg', h: 305 },
+  { src: '/assets/images/about-hero/hero-5.jpg', h: 359 },
+  { src: '/assets/images/about-hero/hero-6.jpg', h: 417 },
+  { src: '/assets/images/about-hero/hero-7.jpg', h: 353 },
+  { src: '/assets/images/about-hero/hero-8.jpg', h: 305 },
+  { src: '/assets/images/about-hero/hero-9.jpg', h: 359 },
+  { src: '/assets/images/about-hero/hero-10.jpg', h: 417 },
+];
+
 /**
  * "Infinite site" loop for the homepage.
  *
@@ -23,7 +41,7 @@ export default function InfiniteLoop() {
   const fillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (pathname !== '/') return;
+    if (!LOOP_PATHS.includes(pathname)) return;
 
     type Lenis = {
       scrollTo: (t: number, o?: object) => void;
@@ -38,7 +56,6 @@ export default function InfiniteLoop() {
     const FILL_DISTANCE = 1100;
 
     let progress = 0; // 0 → 1
-    let lastIntentAt = -Infinity;
     let looping = false;
 
     const atBottom = () =>
@@ -50,6 +67,10 @@ export default function InfiniteLoop() {
       const fill = fillRef.current;
       if (!el || !fill) return;
       fill.style.width = `${progress * 100}%`;
+      // While the loop is firing, the bar's visibility is choreographed by
+      // triggerLoop (it must fade out BEFORE the hero is revealed), so leave it
+      // alone here.
+      if (looping) return;
       el.style.opacity = atBottom() || progress > 0 ? '1' : '0';
     };
 
@@ -57,30 +78,51 @@ export default function InfiniteLoop() {
       if (looping) return;
       looping = true;
       progress = 1;
-      render();
 
-      // Fade the footer out to reveal the fixed hero behind it, then snap the
-      // scroll to the top (the real Hero) — so the loop reads as seamless.
+      const bar = progressRef.current;
+      const fill = fillRef.current;
       const footer = document.querySelector('footer') as HTMLElement | null;
-      if (footer) {
-        footer.style.transition = 'opacity 0.45s ease';
-        footer.style.opacity = '0';
+
+      if (fill) fill.style.width = '100%';
+
+      // Choreographed so the audience never sees the bar over the hero:
+      //   1) the progress bar fades fully OUT first,
+      //   2) only then does the footer fade to reveal the fixed hero behind it,
+      //   3) once the hero is fully revealed, the scroll snaps to the top and
+      //      the footer is restored underneath — a seamless loop to the hero.
+      const BAR_FADE = 220;   // ms — step 1
+      const HERO_FADE = 560;  // ms — step 2
+
+      // 1) Fade the bar out.
+      if (bar) {
+        bar.style.transition = `opacity ${BAR_FADE}ms ease`;
+        bar.style.opacity = '0';
       }
+
+      // 2) After the bar is gone, fade the footer out to reveal the hero.
+      window.setTimeout(() => {
+        if (footer) {
+          footer.style.transition = `opacity ${HERO_FADE}ms ease`;
+          footer.style.opacity = '0';
+        }
+      }, BAR_FADE);
+
+      // 3) After the hero is fully revealed, snap to the top and restore.
       window.setTimeout(() => {
         getLenis()?.scrollTo(0, { immediate: true });
         if (footer) {
           footer.style.transition = 'none';
           footer.style.opacity = '1';
         }
+        if (bar) bar.style.opacity = '0';
         progress = 0;
         looping = false;
         render();
-      }, 470);
+      }, BAR_FADE + HERO_FADE + 40);
     };
 
     const addIntent = (amount: number) => {
       if (looping || !atBottom()) return;
-      lastIntentAt = performance.now();
       progress = Math.min(1, progress + amount / FILL_DISTANCE);
       render();
       if (progress >= 1) triggerLoop();
@@ -106,19 +148,15 @@ export default function InfiniteLoop() {
       }
     };
 
-    // Drain the bar back down when the visitor stops pushing (so it only fills
-    // with sustained intent) and reset it the moment they scroll away.
+    // The bar accumulates downward-scroll intent and HOLDS its level while the
+    // visitor stays at the bottom — pausing no longer drains it, so it can be
+    // filled across several scrolls. It only resets if they scroll back up and
+    // away from the bottom of the footer.
     let raf = 0;
     const tick = () => {
       if (!looping) {
         if (!atBottom() && progress > 0) {
           progress = 0;
-          render();
-        } else if (
-          progress > 0 &&
-          performance.now() - lastIntentAt > 130
-        ) {
-          progress = Math.max(0, progress - 0.02);
           render();
         }
       }
@@ -159,62 +197,100 @@ export default function InfiniteLoop() {
     };
   }, [pathname]);
 
-  if (pathname !== '/') return null;
+  if (!LOOP_PATHS.includes(pathname)) return null;
 
   return (
     <>
       {/* Fixed hero layer — sits behind the content/footer and is revealed (by
-          fading the footer) when the loop fires. */}
-      <div
-        aria-hidden
-        className="fixed inset-0 z-0 bg-[#131214] text-white overflow-hidden pointer-events-none"
-      >
-        <video
-          className="object-cover h-full w-full"
-          src="/assets/Homepage X Hero Video (1).mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
+          fading the footer) when the loop fires. Cloned per page so the snap
+          back to the top reads seamlessly as that page's own hero. */}
+      {pathname === '/' ? (
+        <div
+          aria-hidden
+          className="fixed inset-0 z-0 bg-[#131214] text-white overflow-hidden pointer-events-none"
+        >
+          <video
+            className="object-cover h-full w-full"
+            src="/assets/Homepage X Hero Video (1).mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
 
-        {/* Hero content (static mirror of the real Hero) */}
-        <div className="absolute top-30 sm:top-10 md:top-20 right-0 left-0 bottom-0 mx-auto px-6 md:px-12 lg:px-24 pt-20 sm:pt-32 pb-20 md:pb-40 text-center">
-          <div className="mb-6 sm:mb-8">
-            <span className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 border border-neutral-700 rounded-full text-xs sm:text-sm text-neutral-300">
-              Modern Full-Stack Development &amp; Engineering
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-4 sm:mb-6 leading-tight">
-            <div>
-              <span className="inline-block">Build Faster. Deploy</span>
+          {/* Hero content (static mirror of the real Hero) */}
+          <div className="absolute top-30 sm:top-10 md:top-20 right-0 left-0 bottom-0 mx-auto px-6 md:px-12 lg:px-24 pt-20 sm:pt-32 pb-20 md:pb-40 text-center">
+            <div className="mb-6 sm:mb-8">
+              <span className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 border border-neutral-700 rounded-full text-xs sm:text-sm text-neutral-300">
+                Modern Full-Stack Development &amp; Engineering
+              </span>
             </div>
-            <div>
-              <span className="inline-block">Smarter. Scale Effortlessly.</span>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-4 sm:mb-6 leading-tight">
+              <div>
+                <span className="inline-block">Build Faster. Deploy</span>
+              </div>
+              <div>
+                <span className="inline-block">Smarter. Scale Effortlessly.</span>
+              </div>
+            </h1>
+
+            <p className="text-sm text-neutral-400 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
+              Advanced software engineering using next-generation architecture and technologies to
+              <br className="hidden md:block" />
+              power your applications, data, AI, and automation. Speed and scale—without limits.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <span className="btn-primary w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base">
+                Book a meeting
+              </span>
+              <Link
+                href="/services"
+                className="w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg flex items-center justify-center space-x-2 group"
+              >
+                <span className="relative z-10">Our services</span>
+                <span className="relative z-10">→</span>
+              </Link>
             </div>
-          </h1>
-
-          <p className="text-sm text-neutral-400 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
-            Advanced software engineering using next-generation architecture and technologies to
-            <br className="hidden md:block" />
-            power your applications, data, AI, and automation. Speed and scale—without limits.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            <span className="btn-primary w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base">
-              Book a meeting
-            </span>
-            <Link
-              href="/services"
-              className="w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg flex items-center justify-center space-x-2 group"
-            >
-              <span className="relative z-10">Our services</span>
-              <span className="relative z-10">→</span>
-            </Link>
           </div>
         </div>
-      </div>
+      ) : (
+        // About hero clone — static mirror of the /about hero (headline + the
+        // bottom-aligned photo marquee) so the loop snaps back seamlessly.
+        <div
+          aria-hidden
+          className="fixed inset-0 z-0 flex flex-col overflow-hidden bg-black pt-32 sm:pt-40 pb-12 text-white pointer-events-none"
+        >
+          <div className="w-full max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24">
+            <h1 className="text-white font-semibold leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-[16ch]">
+              Where exceptional people unite for the love of the craft.
+            </h1>
+          </div>
+
+          <div className="mt-auto pt-20 sm:pt-28 lg:pt-36 w-full overflow-hidden">
+            <div
+              className="about-hero-marquee"
+              style={{ ['--tile-w' as string]: 'clamp(180px, 28vw, 461px)' }}
+            >
+              {[...ABOUT_HERO_IMAGES, ...ABOUT_HERO_IMAGES].map((img, i) => (
+                <div
+                  key={i}
+                  className="shrink-0 mr-2 overflow-hidden"
+                  style={{ width: 'var(--tile-w)', aspectRatio: `461 / ${img.h}` }}
+                >
+                  <img
+                    src={img.src}
+                    alt=""
+                    draggable={false}
+                    className="w-full h-full object-cover select-none"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Loop progress bar — pinned to the bottom of the footer. Fills from
           continued downward scroll once the footer is fully in view; the loop
