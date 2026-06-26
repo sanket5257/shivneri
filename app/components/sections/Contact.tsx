@@ -2,8 +2,11 @@ import React from 'react';
 import { MapPin, Shield, Lightbulb } from 'lucide-react';
 
 const WhereWeWork = () => {
+  // NOTE: placeholder / dummy content — replace with real details later.
   const location = {
     city: 'Kolhapur, India',
+    address: 'Rajaram Road, Shahupuri, Kolhapur, Maharashtra 416001',
+    hours: 'Mon – Fri, 9:30 AM – 6:30 PM IST',
     mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2272.079122656418!2d74.45311016151875!3d16.718548202270377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc11dc168db2df3%3A0x38067f7a2e81886d!2sShivneri%20Systems%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1764828981119!5m2!1sen!2sin',
     contacts: [
       { type: 'Sales', phone: '+91 231 123 4567' },
@@ -66,10 +69,12 @@ const WhereWeWork = () => {
                 ))}
               </div>
 
-              <div className="mt-8 pt-8 border-t border-gray-800">
-                <p className="text-gray-400 text-sm">
+              <div className="mt-8 pt-8 border-t border-gray-800 space-y-2">
+                <p className="text-gray-300 text-sm font-medium">
                   Shivneri Systems Pvt. Ltd.
                 </p>
+                <p className="text-gray-400 text-sm">{location.address}</p>
+                <p className="text-gray-500 text-sm">{location.hours}</p>
               </div>
             </div>
           </div>
@@ -85,8 +90,8 @@ const WhereWeWork = () => {
           </div>
           <div>
             <div className="text-gray-400 text-xs sm:text-sm mb-0.5 sm:mb-1">Support</div>
-            <a href="mailto:sayhello@example.com" className="text-gray-300 hover:text-white transition-colors">
-              sayhello@example.com
+            <a href="mailto:support@shivnerisystems.com" className="text-gray-300 hover:text-white transition-colors">
+              support@shivnerisystems.com
             </a>
           </div>
         </div>
@@ -98,8 +103,8 @@ const WhereWeWork = () => {
           </div>
           <div>
             <div className="text-gray-400 text-xs sm:text-sm mb-0.5 sm:mb-1">Sales</div>
-            <a href="mailto:sayhello@example.com" className="text-gray-300 hover:text-white transition-colors">
-              sayhello@example.com
+            <a href="mailto:sales@shivnerisystems.com" className="text-gray-300 hover:text-white transition-colors">
+              sales@shivnerisystems.com
             </a>
           </div>
         </div>
