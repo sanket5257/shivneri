@@ -15,33 +15,68 @@ export default function UpticLanding() {
   const [openWho, setOpenWho] = useState<number | null>(0);
 
   useEffect(() => {
-    // Hero section animations (exclude button)
-    const heroElements = heroRef.current?.querySelectorAll('.hero-content > :not(button)');
+    if (typeof window === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero text — runs immediately (no scroll dependency). fromTo with an
+    // explicit opacity:1 end is deterministic, so soft-navigating into the page
+    // can never leave it stuck at the "from" (invisible) state.
+    const heroElements = heroRef.current?.querySelectorAll(
+      '.hero-content > :not(button)'
+    );
     if (heroElements && heroElements.length > 0) {
-      gsap.from(heroElements, {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-      });
+      gsap.fromTo(
+        heroElements,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }
+      );
     }
 
-    // Section title animation
-    gsap.from('.section-title', {
-      opacity: 0,
-      y: 50,
-      scrollTrigger: {
-        trigger: '.section-title',
-        start: 'top 80%',
-        end: 'top 60%',
-        scrub: 1,
-      },
-    });
+    // Keep ScrollTrigger in sync with Lenis smooth scroll.
+    const lenis = (window as unknown as { lenis?: { on: Function; off: Function } })
+      .lenis;
+    const onScroll = () => ScrollTrigger.update();
+    if (lenis) lenis.on('scroll', onScroll);
 
-    // Cleanup ScrollTrigger on unmount
+    let ctx: ReturnType<typeof gsap.context> | undefined;
+
+    // Build scroll-driven reveals AFTER layout/images settle. On client-side
+    // navigation the new page isn't measured yet when the effect first runs, so
+    // we wait two frames and then refresh — otherwise the trigger positions are
+    // stale and the reveal gets stuck invisible (only a hard refresh fixed it).
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        ctx = gsap.context(() => {
+          gsap.fromTo(
+            '.section-title',
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: servicesRef.current,
+                start: 'top 78%',
+                once: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        });
+
+        ScrollTrigger.refresh();
+      })
+    );
+
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener('load', onLoad);
+
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      cancelAnimationFrame(raf);
+      window.removeEventListener('load', onLoad);
+      if (lenis) lenis.off('scroll', onScroll);
+      ctx?.revert();
     };
   }, []);
 
