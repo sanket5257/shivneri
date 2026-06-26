@@ -14,15 +14,15 @@ const WhereWeWork = () => {
   return (
     <div id="contact" className="min-h-screen bg-black text-white py-12 sm:py-16 md:py-20 px-4 sm:px-6">
       {/* Header */}
-      <header className="flex justify-center pb-12 sm:pb-16">
-        <button className="px-6 py-2 border border-gray-600 rounded-full text-gray-300 hover:border-gray-400 transition-colors">
+      <header className="flex justify-center pb-6 sm:pb-8">
+        <button className="px-4 sm:px-6 py-1.5 sm:py-2 border border-neutral-700 rounded-full text-xs sm:text-sm text-neutral-400 hover:border-neutral-500 transition-colors">
           Contact
         </button>
       </header>
 
       {/* Title */}
       <div className="text-center mb-12 sm:mb-16">
-        <h1 className="text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-semibold leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight">
           <span className="text-neutral-500">Where</span>{' '}
           <span className="text-white">we</span>{' '}
           <span className="text-neutral-500">Work</span>

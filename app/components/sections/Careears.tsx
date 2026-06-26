@@ -38,7 +38,7 @@ const CareersHero = () => {
           <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 md:gap-16 items-center">
             {/* Left Column */}
             <div>
-              <h1 className="text-4xl xs:text-5xl sm:text-6xl font-semibold lg:text-7xl mb-6 sm:mb-8 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 sm:mb-8 leading-[1.1]">
                 <span className="text-neutral-500">Curious minds welcome.</span>
                 <br />
                 <span className="text-black">Egos left at the door.</span>
