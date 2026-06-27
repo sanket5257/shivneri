@@ -129,21 +129,34 @@ function FeatureList({
 }
 
 export default function ServicesPage() {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState<number | null>(0);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // On tap/click, open the service AND keep its title in view so the panel
-  // reveals BELOW it. Without this, collapsing an open item higher up yanks the
-  // page upward and the tapped service opens above the fold.
+  // Hover-to-open only makes sense on devices with a real pointer. On touch
+  // (mobile) we rely solely on tap/click so the dropdown opens reliably.
+  const canHover = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
+
+  // On tap/click, toggle the service. Opening keeps its title in view so the
+  // panel reveals BELOW it. Without this, collapsing an open item higher up
+  // yanks the page upward and the tapped service opens above the fold.
   const handleSelect = (i: number) => {
     const prev = active;
+
+    // Tapping the already-open service closes it.
+    if (prev === i) {
+      setActive(null);
+      return;
+    }
+
     setActive(i);
 
     // Height of the panel that is about to collapse, if it sits above the
     // tapped one — that space disappears, so subtract it from the scroll target.
     let removedAbove = 0;
-    if (prev !== i && prev < i) {
+    if (prev !== null && prev < i) {
       removedAbove = panelRefs.current[prev]?.offsetHeight ?? 0;
     }
 
@@ -200,8 +213,8 @@ export default function ServicesPage() {
                 <button
                   type="button"
                   onClick={() => handleSelect(i)}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
+                  onMouseEnter={() => canHover() && setActive(i)}
+                  onFocus={() => canHover() && setActive(i)}
                   aria-expanded={isActive}
                   className="group flex w-full cursor-pointer items-center gap-4 sm:gap-6 py-5 sm:py-6 lg:py-7 text-left"
                 >
