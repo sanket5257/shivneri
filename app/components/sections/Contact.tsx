@@ -84,7 +84,7 @@ const WhereWeWork = () => {
       {/* Bottom Contact Section */}
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-10 md:gap-12 pt-8 sm:pt-10 md:pt-12 border-t border-gray-800 px-4 sm:px-6">
         {/* Support */}
-        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
+        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-start">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a1a1a] rounded-full flex-shrink-0 flex items-center justify-center border border-gray-800">
             <Shield className="w-6 h-6 text-gray-400" />
           </div>
@@ -97,7 +97,7 @@ const WhereWeWork = () => {
         </div>
 
         {/* Sales */}
-        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
+        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-start">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1a1a1a] rounded-full flex-shrink-0 flex items-center justify-center border border-gray-800">
             <Lightbulb className="w-6 h-6 text-gray-400" />
           </div>

@@ -63,7 +63,7 @@ const OurApproachSection = () => {
   }, []);
 
   return (
-    <section className="bg-black text-white px-6 lg:px-12 py-20">
+    <section className="bg-black text-white px-6 md:px-12 lg:px-24 py-16 sm:py-20">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         {/* LEFT CONTENT */}
@@ -73,11 +73,11 @@ const OurApproachSection = () => {
           </span>
 
           <div>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-neutral-500">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-neutral-500">
               Proven across industries,
             </h2>
-            <h3 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-white">
-              from startups to <br />
+            <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-white">
+              from startups to <br className="hidden sm:block" />
               global enterprises
             </h3>
           </div>

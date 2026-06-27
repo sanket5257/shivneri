@@ -607,8 +607,8 @@ export default function Footer2() {
       <div className="relative z-20 flex w-full flex-1 flex-col">
         <div className="mx-auto flex w-full max-w-[1728px] flex-1 flex-col px-6 pt-24 pb-6 md:px-12 md:pt-36 md:pb-16 lg:px-16">
           {/* ---- TOP ROW ---- */}
-          <div className="grid w-full grid-cols-12 gap-10 md:gap-x-12 lg:mb-20">
-            <div className="col-span-12 flex flex-col justify-between gap-6 md:col-span-6 lg:col-span-7 xl:col-span-8">
+          <div className="grid w-full grid-cols-12 gap-y-10 md:gap-x-12 lg:mb-20">
+            <div className="col-span-12 flex min-w-0 flex-col justify-between gap-6 md:col-span-6 lg:col-span-7 xl:col-span-8">
               <div>
                 <RevealTitle className="tf2-title mb-4 block">
                   {SMALL_TITLE}
@@ -621,7 +621,7 @@ export default function Footer2() {
               </div>
             </div>
 
-            <div className="col-span-12 flex w-full flex-col justify-between md:col-span-6 lg:col-span-5 xl:col-span-4">
+            <div className="col-span-12 flex w-full min-w-0 flex-col justify-between md:col-span-6 lg:col-span-5 xl:col-span-4">
               <div className="mb-8 hidden w-full md:flex md:items-start md:justify-end">
                 <span className="tf2-title" style={{ color: 'rgba(216,216,216,.5)' }}>
                   IST → {clock}
@@ -632,8 +632,8 @@ export default function Footer2() {
           </div>
 
           {/* ---- MIDDLE ROW ---- */}
-          <div className="my-auto grid w-full grid-cols-12 gap-10 py-16 lg:gap-x-12 lg:py-0">
-            <div className="order-2 col-span-12 flex flex-col justify-between gap-6 md:order-1 md:col-span-6 lg:col-span-7 xl:col-span-8">
+          <div className="my-auto grid w-full grid-cols-12 gap-y-10 py-16 md:gap-x-10 lg:gap-x-12 lg:py-0">
+            <div className="order-2 col-span-12 flex min-w-0 flex-col justify-between gap-6 md:order-1 md:col-span-6 lg:col-span-7 xl:col-span-8">
               <span className="tf2-title block" style={{ color: 'rgba(216,216,216,.5)' }}>
                 ©{BRAND}® {COPYRIGHT_YEAR}
               </span>
@@ -658,10 +658,10 @@ export default function Footer2() {
               </RevealTitle>
             </div>
 
-            <div className="order-1 col-span-12 flex w-full flex-col justify-between md:order-2 md:col-span-6 lg:col-span-5 xl:col-span-4">
+            <div className="order-1 col-span-12 flex w-full min-w-0 flex-col justify-between md:order-2 md:col-span-6 lg:col-span-5 xl:col-span-4">
               <div className="grid grid-cols-2 gap-6 sm:gap-10">
                 {/* Business enquiry */}
-                <div className="flex flex-col">
+                <div className="flex min-w-0 flex-col">
                   <span className="tf2-title mb-6 block" style={{ color: 'rgba(216,216,216,.5)' }}>
                     Business enquiry
                   </span>
@@ -678,7 +678,7 @@ export default function Footer2() {
                 </div>
 
                 {/* Social */}
-                <div className="flex flex-col">
+                <div className="flex min-w-0 flex-col">
                   <span className="tf2-title mb-6 block" style={{ color: 'rgba(216,216,216,.5)' }}>
                     Social
                   </span>

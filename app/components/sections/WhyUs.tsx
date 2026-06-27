@@ -9,6 +9,13 @@ const WhyUptic = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(() => {
+    // Hover-driven scale/blur is a pointer interaction — skip it entirely on
+    // touch / mobile devices so cards stay flat and don't get stuck mid-effect.
+    const hoverCapable =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!hoverCapable) return;
+
     const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
     const cleanups: Array<() => void> = [];
 
@@ -125,7 +132,7 @@ const WhyUptic = () => {
           {/* Flexible Teams Card */}
           <div
             ref={el => addToRefs(el, 1)}
-            className="group relative cursor-pointer will-change-transform bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl p-8 overflow-hidden"
+            className="group relative cursor-pointer will-change-transform bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 overflow-hidden"
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
@@ -161,8 +168,8 @@ const WhyUptic = () => {
             className="group relative cursor-pointer will-change-transform lg:col-span-2 bg-gradient-to-b from-neutral-900/50 to-black border border-neutral-800/50 rounded-3xl overflow-hidden"
           >
             <div className="grid lg:grid-cols-2 gap-8">
-              {/* Left: Video Background */}
-              <div className="relative h-96 lg:h-full overflow-hidden">
+              {/* Left: Video Background — sits below the text on mobile */}
+              <div className="relative h-96 lg:h-full overflow-hidden order-2 lg:order-1">
                 <video 
                   autoPlay 
                   loop 
@@ -173,8 +180,8 @@ const WhyUptic = () => {
                 />
               </div>
 
-              {/* Right: Content */}
-              <div className="p-8 lg:p-12 flex flex-col justify-center">
+              {/* Right: Content — sits above the video on mobile */}
+              <div className="p-8 lg:p-12 flex flex-col justify-center order-1 lg:order-2">
                 <div className="flex justify-between items-start mb-6">
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
                     We Build It. We Run It. We Innovate It.

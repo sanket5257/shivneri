@@ -81,7 +81,7 @@ export default function UpticHero() {
           
           <div className="overflow-hidden">
             <p ref={textRef} className="hero-text text-sm text-neutral-400 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
-              Advanced software engineering using next-generation architecture and technologies to
+              Advanced software engineering using next-generation architecture and technologies to{' '}
               <br className="hidden md:block" />
               power your applications, data, AI, and automation. Speed and scale—without limits.
             </p>
