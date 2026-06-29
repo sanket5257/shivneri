@@ -30,15 +30,10 @@ export default function ProductDetailOverlay({
   const isOpen = activeIndex !== null;
   const product = isOpen ? products[activeIndex] : null;
 
-  const [infoOpen, setInfoOpen] = useState(false);
+  // Details panel starts open so users see the product info up front; they can
+  // close it to watch the video full-screen. State persists across products.
+  const [infoOpen, setInfoOpen] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Close the info panel whenever a different product opens.
-  const [prevIndex, setPrevIndex] = useState(activeIndex);
-  if (activeIndex !== prevIndex) {
-    setPrevIndex(activeIndex);
-    setInfoOpen(false);
-  }
 
   const goToProduct = useCallback(
     (dir: 1 | -1) => {
@@ -86,7 +81,7 @@ export default function ProductDetailOverlay({
   // Circular control using the site's Liquid Glass surface — its dark adaptive
   // tint keeps white icons legible over bright media.
   const iconBtn =
-    'liquid-glass pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
+    'liquid-glass pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
 
   return (
     <Portal>
@@ -157,8 +152,14 @@ export default function ProductDetailOverlay({
         </div>
 
         {/* Bottom chrome — container is pointer-events-none so empty areas pass
-            clicks through; each control opts back in with pointer-events-auto. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-6 pb-7 sm:px-10">
+            clicks through; each control opts back in with pointer-events-auto.
+            On md+ it shifts left while the details panel is open so the dashes,
+            name and arrows stay visible beside the panel instead of behind it. */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-0 z-30 px-6 pb-7 transition-[padding] duration-500 ease-out sm:px-10 ${
+            infoOpen ? 'md:pr-[29rem]' : ''
+          }`}
+        >
           {/* Dash indicators — one per product, active = current */}
           {hasNav && (
             <div className="mb-6 flex justify-center gap-2">
