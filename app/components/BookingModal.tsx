@@ -68,20 +68,20 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   return (
     <Portal>
-      <div className="fixed inset-0 bg-black/80 z-100 flex items-center justify-center p-4">
-        <div className="bg-[#1A1A1A] rounded-2xl w-full max-w-2xl relative overflow-hidden">
-        <button 
+      <div className="fixed inset-0 bg-black/80 z-100 flex items-center justify-center p-3 sm:p-4">
+        <div className="bg-[#1A1A1A] rounded-2xl w-full max-w-2xl relative max-h-[92vh] overflow-y-auto">
+        <button
           onClick={onClose}
-          className="absolute right-6 top-6 text-white/70 hover:text-white transition-colors"
+          className="absolute right-4 top-4 sm:right-6 sm:top-6 z-10 text-white/70 hover:text-white transition-colors"
           aria-label="Close modal"
         >
           <FiX size={24} />
         </button>
-        
-        <div className="p-10">
-          <h2 className="text-3xl font-semibold text-white mb-3">Book a 30-Minute Consultation</h2>
-          <p className="text-white/60 mb-8 text-lg">Let's discuss how we can help accelerate your project</p>
-          
+
+        <div className="p-6 sm:p-8 md:p-10">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-2 sm:mb-3 pr-10">Book a 30-Minute Consultation</h2>
+          <p className="text-white/60 mb-6 sm:mb-8 text-base sm:text-lg">Let's discuss how we can help accelerate your project</p>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
@@ -99,7 +99,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               {errors.name && <p className="mt-2 text-sm text-red-500">{errors.name}</p>}
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label htmlFor="businessName" className="block text-sm font-medium text-white/80 mb-2">
                   Business Name *
@@ -133,7 +133,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
                   Email *
