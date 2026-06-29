@@ -11,6 +11,10 @@ export interface Product {
   title: string;
   /** Body copy — one entry per paragraph. */
   description: string[];
+  /** Key outcomes / benefits — bullet list in the detail info panel. */
+  highlights: string[];
+  /** Who / what the product is best suited for — bullet list in the info panel. */
+  bestFor: string[];
   /** Cover image used in the index grid. */
   thumbnail: string;
   /**

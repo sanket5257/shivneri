@@ -73,6 +73,39 @@ export default function ProductInfoPanel({
           <p key={i}>{p}</p>
         ))}
       </div>
+
+      <div className="mt-10">
+        <h3 className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">
+          Highlights
+        </h3>
+        <ul className="space-y-2 text-sm text-neutral-200">
+          {product.highlights.map((h) => (
+            <li key={h} className="flex gap-3">
+              <span
+                aria-hidden="true"
+                className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-white/50"
+              />
+              <span className="leading-relaxed">{h}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-10">
+        <h3 className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">
+          Best for
+        </h3>
+        <ul className="flex flex-wrap gap-2">
+          {product.bestFor.map((b) => (
+            <li
+              key={b}
+              className="rounded-full border border-white/15 px-3 py-1 text-xs text-neutral-200"
+            >
+              {b}
+            </li>
+          ))}
+        </ul>
+      </div>
     </aside>
   );
 }

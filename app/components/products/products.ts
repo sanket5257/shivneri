@@ -47,6 +47,17 @@ export const products: Product[] = [
       'Streamline student enrollment, attendance tracking, grade management, and parent communication with our intuitive platform designed for K-12 schools.',
       'Built to give administrators, teachers and parents a single source of truth for every student.',
     ],
+    highlights: [
+      'Cut administrative workload with automated attendance and report cards',
+      'Real-time parent notifications for grades, fees and announcements',
+      'Role-based access for admins, teachers, students and parents',
+      'Works on any device — desktop, tablet and mobile',
+    ],
+    bestFor: [
+      'K-12 schools and academies',
+      'Multi-branch school groups',
+      'Tuition and coaching centres',
+    ],
     thumbnail: POOL[0],
     video: '/assets/Web_design.mp4',
     gallery: galleryFor(0),
@@ -67,6 +78,17 @@ export const products: Product[] = [
     description: [
       'From inventory management to customer relations, SmartBiz provides the tools you need to run your business efficiently and grow with confidence.',
       'One connected workspace so your team spends less time switching tools and more time moving the business forward.',
+    ],
+    highlights: [
+      'Live inventory, sales and cash-flow in a single dashboard',
+      'Built-in CRM keeps every customer interaction in one place',
+      'Automated invoices, reminders and financial reports',
+      'Granular permissions so teams see only what they need',
+    ],
+    bestFor: [
+      'Small and mid-sized businesses',
+      'Retail and wholesale operations',
+      'Service teams managing clients and billing',
     ],
     thumbnail: POOL[3],
     video: '/assets/branding.mp4',
@@ -90,6 +112,17 @@ export const products: Product[] = [
       'Manage courses, faculty, admissions, and student services with a robust platform built specifically for colleges and universities.',
       'Scales from a single department to an entire campus without losing the details that matter.',
     ],
+    highlights: [
+      'End-to-end admissions, from application to enrolment',
+      'Course registration, timetables and credit tracking in one place',
+      'Faculty portal for grading, attendance and course material',
+      'Self-service student dashboard for results, fees and requests',
+    ],
+    bestFor: [
+      'Colleges and universities',
+      'Multi-department institutions',
+      'Professional and vocational institutes',
+    ],
     thumbnail: POOL[7],
     video: '/assets/motion_graphics.mp4',
     gallery: galleryFor(7),
@@ -110,6 +143,17 @@ export const products: Product[] = [
     description: [
       'Connect with your customers through powerful text messaging campaigns, automated workflows, and real-time analytics.',
       'Reach the right audience at the right moment, then measure every send with clear, actionable analytics.',
+    ],
+    highlights: [
+      'Send and schedule bulk campaigns to segmented audiences',
+      'Automated workflows for OTPs, alerts and reminders',
+      'Delivery, open and response analytics in real time',
+      'Simple REST API to plug into your existing systems',
+    ],
+    bestFor: [
+      'Marketing and growth teams',
+      'Businesses sending OTPs and transactional alerts',
+      'Agencies running campaigns for multiple clients',
     ],
     thumbnail: POOL[11],
     video: '/assets/mobile_application.mp4',
