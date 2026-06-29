@@ -155,13 +155,13 @@ export default function AboutApproach() {
           ))}
         </h2>
 
-        {/* ---- Lower block — shifted into the right half (empty left) ---- */}
+        {/* ---- Lower block — spread across the full width ---- */}
         <div
           ref={bottomRef}
           className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-10 lg:gap-12"
         >
-          {/* Copy + button (right side, narrow) */}
-          <div className="space-y-5 md:col-span-4 md:col-start-6">
+          {/* Copy + button (left side) */}
+          <div className="space-y-5 md:col-span-5 md:col-start-1">
             {PARAGRAPHS.map((p, i) => (
               <p key={i} className="text-sm leading-relaxed text-white">
                 {p}
@@ -173,8 +173,8 @@ export default function AboutApproach() {
             </button>
           </div>
 
-          {/* Capabilities accordion (right column, narrower) */}
-          <div className="border-b border-white/10 md:col-span-3 md:col-start-10">
+          {/* Capabilities accordion (right column) */}
+          <div className="border-b border-white/10 md:col-span-4 md:col-start-9">
             {CAPABILITIES.map((cap, i) => {
               const isOpen = open === i;
               return (
