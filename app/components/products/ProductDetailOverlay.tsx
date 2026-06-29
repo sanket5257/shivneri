@@ -14,12 +14,12 @@ interface ProductDetailOverlayProps {
 }
 
 /**
- * Fullscreen detail view styled to match the rest of the site: black stage,
- * white text and rounded glass controls — circular slide buttons bottom-right,
- * dash indicators centered (active = white), a rounded "Info" pill that slides
- * the details panel in, and prev/next-product controls. Controls sit on dark
- * translucent fills so they stay readable over bright media. Esc / arrow keys
- * are wired up; body scroll is locked while open.
+ * Fullscreen detail view styled to match the rest of the site: black stage with
+ * the product's looping video filling the screen, white text and rounded Liquid
+ * Glass controls. The ◀ ▶ buttons and dash indicators move between PRODUCTS —
+ * each one shows its own video (no still-image slides) — and a rounded "Info"
+ * pill slides the details panel in. Esc / arrow keys are wired up; body scroll
+ * is locked while open.
  */
 export default function ProductDetailOverlay({
   products,
@@ -30,38 +30,15 @@ export default function ProductDetailOverlay({
   const isOpen = activeIndex !== null;
   const product = isOpen ? products[activeIndex] : null;
 
-  const [slide, setSlide] = useState(0);
   const [infoOpen, setInfoOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Reset slideshow + panel whenever a different product opens. Adjusting state
-  // during render (vs. an effect) avoids a flash of the previous slide.
+  // Close the info panel whenever a different product opens.
   const [prevIndex, setPrevIndex] = useState(activeIndex);
   if (activeIndex !== prevIndex) {
     setPrevIndex(activeIndex);
-    setSlide(0);
     setInfoOpen(false);
   }
-
-  // Media list for the slideshow: the looping product video (if any) leads,
-  // followed by the still images.
-  const media = product
-    ? [
-        ...(product.video
-          ? [{ type: 'video' as const, src: product.video }]
-          : []),
-        ...product.gallery.map((src) => ({ type: 'image' as const, src })),
-      ]
-    : [];
-
-  const nextSlide = useCallback(
-    () => setSlide((s) => (s + 1) % media.length),
-    [media.length]
-  );
-  const prevSlide = useCallback(
-    () => setSlide((s) => (s - 1 + media.length) % media.length),
-    [media.length]
-  );
 
   const goToProduct = useCallback(
     (dir: 1 | -1) => {
@@ -72,21 +49,18 @@ export default function ProductDetailOverlay({
     [activeIndex, products.length, onNavigate]
   );
 
-  // Play the product video only while it's the active slide; pause it otherwise
-  // (and reset to the start) so it doesn't keep running behind the stills.
-  const videoIsActive = isOpen && media[slide]?.type === 'video';
+  // Restart + play the video each time the active product changes. Switching
+  // products swaps in a new <video> (keyed by id), so we (re)trigger playback
+  // here rather than relying on autoplay, which can leave the new clip paused
+  // on its first frame — looking like a static image.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (videoIsActive) {
-      v.play().catch(() => {});
-    } else {
-      v.pause();
-      v.currentTime = 0;
-    }
-  }, [videoIsActive]);
+    v.currentTime = 0;
+    v.play().catch(() => {});
+  }, [activeIndex]);
 
-  // Lock body scroll + keyboard navigation while open.
+  // Lock body scroll + keyboard navigation while open (arrows move products).
   useEffect(() => {
     if (!isOpen) return;
     const prevOverflow = document.body.style.overflow;
@@ -94,8 +68,8 @@ export default function ProductDetailOverlay({
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
-      else if (e.key === 'ArrowRight') nextSlide();
-      else if (e.key === 'ArrowLeft') prevSlide();
+      else if (e.key === 'ArrowRight') goToProduct(1);
+      else if (e.key === 'ArrowLeft') goToProduct(-1);
     };
     window.addEventListener('keydown', onKey);
 
@@ -103,14 +77,16 @@ export default function ProductDetailOverlay({
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', onKey);
     };
-  }, [isOpen, onClose, nextSlide, prevSlide]);
+  }, [isOpen, onClose, goToProduct]);
 
   if (!product || activeIndex === null) return null;
+
+  const hasNav = products.length > 1;
 
   // Circular control using the site's Liquid Glass surface — its dark adaptive
   // tint keeps white icons legible over bright media.
   const iconBtn =
-    'liquid-glass flex h-12 w-12 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
+    'liquid-glass pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
 
   return (
     <Portal>
@@ -120,34 +96,28 @@ export default function ProductDetailOverlay({
         aria-label={`${product.name} — product detail`}
         className="fixed inset-0 z-[100] bg-black text-white"
       >
-        {/* Slideshow stage */}
+        {/* Fullscreen video stage — keyed by product so it remounts + replays */}
         <div className="absolute inset-0">
-          {media.map((item, i) =>
-            item.type === 'video' ? (
-              <video
-                key={`${product.id}-${i}`}
-                ref={videoRef}
-                src={item.src}
-                autoPlay
-                loop
-                muted
-                playsInline
-                aria-label={`${product.name} — product video`}
-                className={`absolute inset-0 h-full w-full select-none object-cover transition-opacity duration-700 ease-out ${
-                  i === slide ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            ) : (
-              <img
-                key={`${product.id}-${i}`}
-                src={item.src}
-                alt={`${product.name} — frame ${i + 1}`}
-                draggable={false}
-                className={`absolute inset-0 h-full w-full select-none object-cover transition-opacity duration-700 ease-out ${
-                  i === slide ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            )
+          {product.video ? (
+            <video
+              key={product.id}
+              ref={videoRef}
+              src={product.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-label={`${product.name} — product video`}
+              className="absolute inset-0 h-full w-full select-none object-cover"
+            />
+          ) : (
+            <img
+              key={product.id}
+              src={product.thumbnail}
+              alt={product.name}
+              draggable={false}
+              className="absolute inset-0 h-full w-full select-none object-cover"
+            />
           )}
           {/* Readability gradients for the controls */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/70 to-transparent" />
@@ -189,21 +159,21 @@ export default function ProductDetailOverlay({
         {/* Bottom chrome — container is pointer-events-none so empty areas pass
             clicks through; each control opts back in with pointer-events-auto. */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 px-6 pb-7 sm:px-10">
-          {/* Dash slide indicators — centered */}
-          {media.length > 1 && (
+          {/* Dash indicators — one per product, active = current */}
+          {hasNav && (
             <div className="mb-6 flex justify-center gap-2">
-              {media.map((_, i) => (
+              {products.map((p, i) => (
                 <button
-                  key={i}
+                  key={p.id}
                   type="button"
-                  onClick={() => setSlide(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  aria-current={i === slide}
+                  onClick={() => onNavigate(i)}
+                  aria-label={`Go to ${p.name}`}
+                  aria-current={i === activeIndex}
                   className="pointer-events-auto py-2"
                 >
                   <span
                     className={`block h-0.5 w-9 rounded-full transition-all duration-300 ${
-                      i === slide ? 'bg-white' : 'bg-white/40'
+                      i === activeIndex ? 'bg-white' : 'bg-white/40'
                     }`}
                   />
                 </button>
@@ -212,7 +182,7 @@ export default function ProductDetailOverlay({
           )}
 
           <div className="flex items-end justify-between gap-6">
-            {/* Name + counter + product nav */}
+            {/* Name + counter */}
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] opacity-70">
                 {product.tagline} · {product.sector}
@@ -220,37 +190,19 @@ export default function ProductDetailOverlay({
               <h2 className="mt-2 text-2xl font-semibold leading-none tracking-tight sm:text-3xl">
                 {product.name}
               </h2>
-              <div className="pointer-events-auto mt-3 flex items-center gap-4 text-xs">
+              <span className="mt-3 block text-xs tabular-nums opacity-70">
+                {String(activeIndex + 1).padStart(2, '0')} /{' '}
+                {String(products.length).padStart(2, '0')}
+              </span>
+            </div>
+
+            {/* Prev / next PRODUCT */}
+            {hasNav && (
+              <div className="flex shrink-0 gap-2">
                 <button
                   type="button"
                   onClick={() => goToProduct(-1)}
                   aria-label="Previous product"
-                  className="transition-colors hover:text-white/70"
-                >
-                  Prev
-                </button>
-                <span className="tabular-nums opacity-70">
-                  {String(activeIndex + 1).padStart(2, '0')} /{' '}
-                  {String(products.length).padStart(2, '0')}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => goToProduct(1)}
-                  aria-label="Next product"
-                  className="transition-colors hover:text-white/70"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-
-            {/* Square slide buttons — bottom right */}
-            {media.length > 1 && (
-              <div className="pointer-events-auto flex shrink-0 gap-2">
-                <button
-                  type="button"
-                  onClick={prevSlide}
-                  aria-label="Previous slide"
                   className={iconBtn}
                 >
                   <svg viewBox="0 0 24 24" className="relative z-[2] h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -259,8 +211,8 @@ export default function ProductDetailOverlay({
                 </button>
                 <button
                   type="button"
-                  onClick={nextSlide}
-                  aria-label="Next slide"
+                  onClick={() => goToProduct(1)}
+                  aria-label="Next product"
                   className={iconBtn}
                 >
                   <svg viewBox="0 0 24 24" className="relative z-[2] h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5}>
