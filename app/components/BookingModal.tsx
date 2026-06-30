@@ -21,6 +21,17 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     projectDescription: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [serverError, setServerError] = useState('');
+
+  // Reset the form state whenever the modal is (re)opened.
+  useEffect(() => {
+    if (isOpen) {
+      setStatus('idle');
+      setServerError('');
+      setErrors({});
+    }
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -54,13 +65,37 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      // Handle form submission
-      console.log('Form submitted:', formData);
-      // Here you would typically make an API call
-      onClose();
+    if (!validate()) return;
+
+    setStatus('submitting');
+    setServerError('');
+
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to send your request.');
+      }
+
+      setStatus('success');
+      setFormData({
+        name: '',
+        businessName: '',
+        jobTitle: '',
+        email: '',
+        phone: '',
+        projectDescription: '',
+      });
+    } catch (err) {
+      setStatus('error');
+      setServerError(err instanceof Error ? err.message : 'Something went wrong.');
     }
   };
 
@@ -79,6 +114,23 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         </button>
 
         <div className="p-6 sm:p-8 md:p-10">
+          {status === 'success' ? (
+            <div className="py-8 sm:py-12 text-center">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-green-500/15 text-green-400">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-2 sm:mb-3">Request sent — thank you!</h2>
+              <p className="text-white/60 text-base sm:text-lg mb-8 max-w-md mx-auto">
+                We&apos;ve received your details and will get back to you within one business day to schedule your consultation.
+              </p>
+              <button onClick={onClose} className="btn btn-primary px-8 py-3">
+                Done
+              </button>
+            </div>
+          ) : (
+          <>
           <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-2 sm:mb-3 pr-10">Book a 30-Minute Consultation</h2>
           <p className="text-white/60 mb-6 sm:mb-8 text-base sm:text-lg">Let's discuss how we can help accelerate your project</p>
 
@@ -182,14 +234,22 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               />
             </div>
             
+            {status === 'error' && serverError && (
+              <p className="text-sm text-red-500 text-center" role="alert">{serverError}</p>
+            )}
+
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full btn btn-primary "  >
-                Submit
+                disabled={status === 'submitting'}
+                className="w-full btn btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {status === 'submitting' ? 'Sending…' : 'Submit'}
               </button>
             </div>
           </form>
+          </>
+          )}
         </div>
         </div>
       </div>
