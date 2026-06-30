@@ -241,7 +241,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Right: Book a meeting — desktop / tablet only */}
+          {/* Right: Book a Free Call — desktop / tablet only */}
           <div className="z-50 hidden sm:flex items-center space-x-3 sm:space-x-4 pt-2">
             <button
               className="btn-primary text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2"
@@ -250,7 +250,7 @@ const Header = () => {
                 setIsOpen(false);
               }}
             >
-              Book a meeting
+              Book a Free Call
             </button>
           </div>
 
@@ -370,7 +370,7 @@ const Header = () => {
               isOpen ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
             }`}
           >
-            Book a meeting
+            Book a Free Call
           </button>
 
           {/* Status line */}

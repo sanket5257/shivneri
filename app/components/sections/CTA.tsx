@@ -83,8 +83,8 @@ export default function HeroSection() {
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-neutral-500 leading-tight">
-            If you only read one thing,{' '}
-            <span className="text-white">make it this.</span>
+            We build it, ship it,{' '}
+            <span className="text-white">and run it.</span>
           </h1>
         </div>
 
@@ -92,11 +92,11 @@ export default function HeroSection() {
         <div ref={rightContentRef} className="w-full lg:w-1/2 lg:pl-8">
           <div className="bg-black/50 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-zinc-700/20">
             <p className="text-neutral-400 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed mb-6 sm:mb-8">
-              Your fractional product team, full-time engineering partner, and zero-BS cloud experts.{' '}
+              Your fractional product team and{' '}
               <span className="text-white font-medium">
-                We build it, ship it, and support it
+                full-time engineering partner
               </span>
-              —with speed, clarity, and technical ownership.
+              —with speed, clarity, and zero BS. No handoffs, no bloat—just senior engineers who own outcomes.
             </p>
 
             {/* CTA Button */}
@@ -104,7 +104,7 @@ export default function HeroSection() {
               onClick={() => setIsModalOpen(true)}
               className="w-full px-6 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-lg btn-primary"
             >
-              Book a 30-minute consultation
+              Book a Free Call
             </button>
           </div>
         </div>

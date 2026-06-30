@@ -72,18 +72,18 @@ export default function Hero() {
           
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-4 sm:mb-6 leading-tight">
             <div className="overflow-hidden">
-              <span className="hero-heading inline-block">Build Faster. Deploy</span>
+              <span className="hero-heading inline-block">Ship AI-powered products</span>
             </div>
             <div className="overflow-hidden">
-              <span className="hero-heading inline-block">Smarter. Scale Effortlessly.</span>
+              <span className="hero-heading inline-block">at startup speed.</span>
             </div>
           </h1>
           
           <div className="overflow-hidden">
-            <p ref={textRef} className="hero-text text-sm text-neutral-400 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
-              Advanced software engineering using next-generation architecture and technologies to{' '}
+            <p ref={textRef} className="hero-text text-sm text-neutral-400 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-2 sm:px-0">
+              Shivneri is a lean, global engineering studio that builds AI software, automation, and full-stack apps —{' '}
               <br className="hidden md:block" />
-              power your applications, data, AI, and automation. Speed and scale—without limits.
+              then stays on to run and scale them. No handoffs. No bloat. Just senior engineers who own outcomes.
             </p>
           </div>
           
@@ -93,14 +93,14 @@ export default function Hero() {
               style={{ transform: 'translateZ(0)' }}
               onClick={() => setIsModalOpen(true)}
             >
-              Book a meeting
+              Book a Free Call
             </button>
-            <Link 
-              href="/services" 
+            <Link
+              href="/work"
               className="hero-button w-full sm:w-auto px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition-all duration-300 flex items-center justify-center space-x-2 group transform-gpu will-change-transform"
               style={{ transform: 'translateZ(0)' }}
             >
-              <span className="relative z-10">Our services</span>
+              <span className="relative z-10">See our work</span>
               <span className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>

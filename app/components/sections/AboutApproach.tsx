@@ -14,41 +14,41 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 const HEADING: { text: string; accent?: boolean }[] = [
   {
     text:
-      'Shivneri Systems builds software for startups and enterprises alike — shipping cloud-native platforms and modernizing the legacy systems holding teams back. The focus stays the same:',
+      'Shivneri is an AI-first product engineering studio. We build AI software, automation, and full-stack products for funded startups and scale-ups —',
   },
-  { text: 'engineering that scales,', accent: true },
+  { text: 'and we stay on to run and scale them.', accent: true },
   {
     text:
-      'automation that removes friction, and a team that owns delivery from',
+      'Not an agency or a body-shop. Just a small, senior team that',
   },
-  { text: 'first commit to production.', accent: true },
+  { text: 'owns outcomes end to end.', accent: true },
 ];
 
 const PARAGRAPHS = [
-  'We’re a lean, global crew of engineers, architects, and cloud experts. We design and build full-stack applications, modernize legacy systems, and stand up the platforms and pipelines that let teams ship with confidence.',
-  'We build it, run it, and keep innovating — from secure cloud foundations to scalable applications and automation. No handoffs, no bloated teams, no context lost. Just deeply invested engineers who own delivery end to end.',
+  'We work with founders, CTOs, and product leaders at funded startups and scale-ups — teams who need to ship fast and can’t afford handoffs, juniors, or disappearing freelancers.',
+  'We build it, run it, and keep innovating — no handoffs, no bloat. Senior engineers who own delivery from first commit to production, and keep improving what we build.',
 ];
 
 const CAPABILITIES = [
   {
-    title: 'Development',
+    title: 'AI & Full-Stack Development',
     body:
-      'Full-stack engineering — applications, APIs, and services built to ship fast and scale cleanly.',
+      'Custom LLM apps, AI agents, and full-stack products — engineered for production, not just demos.',
   },
   {
-    title: 'Platforms',
+    title: 'Cloud-Native Platforms',
     body:
-      'Cloud-native foundations, internal developer platforms, and CI/CD pipelines that remove friction.',
+      'Scalable foundations, internal developer platforms, and CI/CD pipelines that remove friction.',
   },
   {
-    title: 'Operate & Innovate',
+    title: 'Run & Scale',
     body:
       'We run what we build — observability, automation, and continuous improvement, with no handoffs.',
   },
   {
-    title: 'Security & Cloud',
+    title: 'Security & DevOps',
     body:
-      'App security, compliance, and cloud cost optimization baked in from day one.',
+      'App security, compliance, and cloud cost optimization — baked in from day one, on every build.',
   },
 ];
 

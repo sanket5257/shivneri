@@ -22,50 +22,50 @@ const ServicesSection = () => {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   const services: Service[] = [
-    // First row - 2 services
+    // First row - 2 services (AI leads)
     {
       id: 1,
-      title: 'AI & Automation',
-      description: 'We build AI-powered features, agents, and workflow automation that turn your data into outcomes and remove repetitive, manual work.',
-      videoSrc: '/assets/branding.mp4'
+      title: 'AI Development',
+      description: 'Custom LLM apps, RAG systems, AI agents, and intelligent features — engineered for production, not just demos.',
+      videoSrc: '/assets/development.mp4'
     },
     {
       id: 2,
-      title: 'UX/UI Design',
-      description: 'We create visually stunning, user-friendly designs that enhance engagement and deliver a smooth digital experience.',
-      videoSrc: '/assets/Web_design.mp4'
+      title: 'AI Automation',
+      description: 'We find the repetitive work draining your team and automate it — workflows, data, support, and ops.',
+      videoSrc: '/assets/motion_graphics.mp4'
     },
     // Second row - 3 services
     {
       id: 3,
-      title: 'Mobile Applications',
-      description: 'We craft intuitive, high-performance mobile applications that delight users and accelerate growth.',
-      videoSrc: '/assets/mobile_application.mp4'
+      title: 'Custom Software Development',
+      description: 'Bespoke platforms, internal tools, and SaaS products on clean, scalable architecture you own.',
+      videoSrc: '/assets/cube.mp4'
     },
     {
       id: 4,
-      title: 'Development',
-      description: 'We build robust technical foundations that bring creative concepts to life while ensuring scalability for your growing business.',
-      videoSrc: '/assets/development.mp4'
+      title: 'Web Development',
+      description: 'Fast, modern web apps built with Next.js and a cloud-native stack — performant and SEO-ready.',
+      videoSrc: '/assets/Web_design.mp4'
     },
     {
       id: 5,
-      title: 'Video Editing',
-      description: 'We turn raw footage into captivating stories that elevate your brand everywhere.',
-      videoSrc: '/assets/video_editing.mp4'
+      title: 'Mobile App Development',
+      description: 'High-performance iOS and Android apps that feel native and ship fast — from MVP to scale.',
+      videoSrc: '/assets/mobile_application.mp4'
     },
-    // Third row - 2 services
+    // Third row - 2 services (in-house support capabilities)
     {
       id: 6,
-      title: 'Graphic Design & Branding',
-      description: 'We translate your values into distinctive visual identities that resonate with audiences and create immediate recognition.',
-      videoSrc: '/assets/branding.mp4'
+      title: 'UX/UI Design',
+      description: 'Intuitive, polished product design that makes your software a pleasure to use.',
+      videoSrc: '/assets/video_editing.mp4'
     },
     {
       id: 7,
-      title: 'Motion Design',
-      description: 'We bring visuals to life with dynamic animation that clarifies, excites, and moves audiences.',
-      videoSrc: '/assets/motion_graphics.mp4'
+      title: 'Brand & Motion Design',
+      description: 'Branding, motion, and video — handled in-house, so your product looks as good as it works.',
+      videoSrc: '/assets/branding.mp4'
     },
   ];
 

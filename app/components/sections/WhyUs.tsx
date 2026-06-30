@@ -88,7 +88,7 @@ const WhyUs = () => {
           </h1>
           <div className="explore-link flex justify-end mt-6 sm:mt-8">
             <Link href="/how-we-work" className="explore-link group inline-flex items-center justify-center space-x-2 px-6 py-2.5 sm:px-8 sm:py-3 border border-neutral-700 rounded-lg hover:border-neutral-500 transition-all duration-300 text-sm sm:text-base">
-              <span className="relative z-10">Explore how we work</span>
+              <span className="relative z-10">See how we work</span>
               <span className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
@@ -103,7 +103,7 @@ const WhyUs = () => {
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
-                Full-Stack + Full-Time Engineering
+                Senior, Full-Time Engineers
               </h2>
               <div className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-gray-400">
@@ -113,7 +113,7 @@ const WhyUs = () => {
             </div>
             
             <p className="text-gray-400 mb-12 max-w-lg leading-relaxed text-sm sm:text-base">
-              No Contractors. No bloated teams. Just high quality deeply invested engineers who own full-stack end-to-end delivery.
+              No juniors, no project handed to a contractor you'll never meet — just engineers who own full-stack delivery end to end.
             </p>
 
             {/* Video Background */}
@@ -136,7 +136,7 @@ const WhyUs = () => {
           >
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
-                Flexible, fractional product teams
+                Startup Velocity
               </h2>
               <div className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-gray-400">
@@ -146,7 +146,7 @@ const WhyUs = () => {
             </div>
             
             <p className="text-gray-400 mb-12 max-w-lg leading-relaxed text-sm sm:text-base">
-              Need an expert, a specialist or a full-stack team? We plug in fast, ramp up instantly, and scale to deliver with precision and deep technical ownership.
+              Small teams, tight loops, and working software in weeks, not quarters. Need an expert, a specialist, or a full-stack team? We plug in fast and scale with you.
             </p>
 
             {/* Video Background */}
@@ -184,7 +184,7 @@ const WhyUs = () => {
               <div className="p-8 lg:p-12 flex flex-col justify-center order-1 lg:order-2">
                 <div className="flex justify-between items-start mb-6">
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight">
-                    We Build It. We Run It. We Innovate It.
+                    We Build It. We Run It. We Keep Innovating.
                   </h2>
                   <div className="w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-4">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-neutral-400">
@@ -194,7 +194,7 @@ const WhyUs = () => {
                 </div>
                 
                 <p className="text-neutral-400 leading-relaxed text-sm sm:text-base">
-                  Shivneri delivers full-lifecycle engineering — from secure platform foundations to scalable applications and continuous innovation. No handoffs. No context lost.
+                  Ownership beyond launch — we deploy, monitor, secure, and keep improving what we build. India-based, working seamlessly with US, EU & GCC teams. No handoffs. No context lost.
                 </p>
               </div>
             </div>
