@@ -100,7 +100,7 @@ export default function SustainabilityPolicy() {
           <section>
             <h2 className="text-2xl font-semibold mb-4">Contact</h2>
             <p className="text-white">
-              For questions about our Sustainability Policy, please contact us at sustainability@shivneri.com
+              For questions about our Sustainability Policy, please contact us at support@shivnerisystems.com
             </p>
           </section>
 

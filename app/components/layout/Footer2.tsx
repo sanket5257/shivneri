@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Volume2, VolumeX } from 'lucide-react';
+
+const BookingModal = dynamic(() => import('../BookingModal'), { ssr: false });
 
 /* -------------------------------------------------------------------------- */
 /*  CONFIG — change brand / contact / links here                              */
@@ -13,15 +16,16 @@ const BIG_HEADING = ['Ready to build', 'something bold?'];
 const COPYRIGHT_YEAR = 2026;
 
 const ENQUIRY = {
-  email: 'sayhello@shivneri.com',
-  phone: '+91 12345 67890',
+  email: 'support@shivnerisystems.com',
+  phone: '+91 8805641257',
 };
 
 const SOCIALS = [
-  { label: 'Linkedin', href: 'https://linkedin.com' },
-  { label: 'Dribbble', href: 'https://dribbble.com' },
-  { label: 'Facebook', href: 'https://facebook.com' },
-  { label: 'Instagram', href: 'https://instagram.com' },
+  { label: 'Linkedin', href: 'https://linkedin.com/company/shivneri-systems/' },
+  { label: 'Facebook', href: 'https://facebook.com/shivneriofficial' },
+  { label: 'Instagram', href: 'https://instagram.com/shivneri_systems/' },
+  { label: 'Twitter', href: 'https://twitter.com/Shivneri_sys' },
+  { label: 'Pinterest', href: 'https://in.pinterest.com/shivnerisystems/' },
 ];
 
 const LIGHT = '#d8d8d8';
@@ -57,10 +61,30 @@ function NavLink({ label }: { label: string }) {
 /*  CollabButton — letter stagger + underline wipe + arrow nudge               */
 /* -------------------------------------------------------------------------- */
 
-function CollabButton({ label, href }: { label: string; href: string }) {
+function CollabButton({
+  label,
+  href,
+  onClick,
+}: {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+}) {
   const chars = label.split('');
   return (
-    <a href={href} className="tf2-btn" draggable={false}>
+    <a
+      href={href ?? '#'}
+      onClick={
+        onClick
+          ? (e) => {
+              e.preventDefault();
+              onClick();
+            }
+          : undefined
+      }
+      className="tf2-btn"
+      draggable={false}
+    >
       <span className="tf2-btn-underline">
         <span className="tf2-u tf2-u-right" />
         <span className="tf2-u tf2-u-left" />
@@ -575,6 +599,7 @@ function StringText({
 export default function Footer2() {
   const [clock, setClock] = useState('--:--');
   const [soundOn, setSoundOn] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const soundOnRef = useRef(true);
   useEffect(() => {
     soundOnRef.current = soundOn;
@@ -598,6 +623,7 @@ export default function Footer2() {
   const css = useMemo(() => FOOTER_CSS, []);
 
   return (
+    <>
     <footer
       className="relative z-10 flex min-h-screen flex-col overflow-hidden"
       style={{ background: '#040508', color: LIGHT }}
@@ -627,7 +653,10 @@ export default function Footer2() {
                   IST → {clock}
                 </span>
               </div>
-              <CollabButton label="START A COLLABORATION" href="#contact" />
+              <CollabButton
+                label="START A COLLABORATION"
+                onClick={() => setIsModalOpen(true)}
+              />
             </div>
           </div>
 
@@ -703,6 +732,9 @@ export default function Footer2() {
         </div>
       </div>
     </footer>
+
+    <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }
 

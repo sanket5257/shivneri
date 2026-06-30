@@ -1,10 +1,16 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 import { FaLinkedin, FaTwitter, FaGithub, FaYoutube, FaFacebook } from 'react-icons/fa';
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 import Link from 'next/link';
 
+const BookingModal = dynamic(() => import('../BookingModal'), { ssr: false });
+
 export default function ModernFooter() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const services = [
     { name: 'Development', path: '/services' },
     { name: 'Platforms', path: '/services' },
@@ -28,11 +34,11 @@ export default function ModernFooter() {
     { name: 'Our Mission', path: '/about#mvp' },
     { name: "Shivneri's Journey", path: '/about#journey' },
     { name: 'Leadership Team', path: '/about#leadership' },
-    { name: 'Contact', path: '/about#contact' }
+    { name: 'Contact', action: 'modal' as const }
   ];
 
   const contacts = [
-    { region: 'India', phone: '+91 12345 67890' }
+    { region: 'India', phone: '+91 8805641257' }
   ];
 
   const legalLinks = [
@@ -100,14 +106,14 @@ export default function ModernFooter() {
             <div className="lg:w-1/2">
               <div className="flex flex-wrap gap-2 sm:gap-3 justify-start lg:justify-end mb-8 md:mb-12">
                 <a 
-                  href="mailto:contact@shivneri.com"
+                  href="mailto:support@shivnerisystems.com"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition-all"
                   aria-label="Email us"
                 >
                   <Mail size={18} className="text-white w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
                 <a 
-                  href="tel:+911234567890"
+                  href="tel:+918805641257"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition-all"
                   aria-label="Call us"
                 >
@@ -123,8 +129,8 @@ export default function ModernFooter() {
                   <MapPin size={18} className="text-white w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
                 <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
+                  href="https://linkedin.com/company/shivneri-systems/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition-all"
                   aria-label="LinkedIn"
@@ -183,9 +189,19 @@ export default function ModernFooter() {
                   <ul className="space-y-2 sm:space-y-3">
                     {about.map((item, i) => (
                       <li key={i}>
-                        <Link href={item.path} className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
-                          {item.name}
-                        </Link>
+                        {'action' in item ? (
+                          <button
+                            type="button"
+                            onClick={() => setIsModalOpen(true)}
+                            className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors text-left"
+                          >
+                            {item.name}
+                          </button>
+                        ) : (
+                          <Link href={item.path} className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">
+                            {item.name}
+                          </Link>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -209,10 +225,10 @@ export default function ModernFooter() {
                   {/* Email */}
                   <div className="sm:text-center">
                     <a 
-                      href="mailto:sayhello@shivneri.com" 
+                      href="mailto:support@shivnerisystems.com"
                       className="text-gray-400 hover:text-white text-xs sm:text-sm inline-block"
                     >
-                      sayhello@shivneri.com
+                      support@shivnerisystems.com
                     </a>
                   </div>
 
@@ -249,6 +265,8 @@ export default function ModernFooter() {
           </div>
         </div>
       </div>
+
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </footer>
   );
 }

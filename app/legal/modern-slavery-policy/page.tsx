@@ -85,9 +85,9 @@ export default function ModernSlaveryPolicy() {
               We encourage anyone with concerns about modern slavery to report them:
             </p>
             <div className="space-y-2 text-white">
-              <p><strong>Confidential Hotline:</strong> +91 12345 67890</p>
-              <p><strong>Email:</strong> ethics@shivneri.com</p>
-              <p><strong>HR Department:</strong> hr@shivneri.com</p>
+              <p><strong>Confidential Hotline:</strong> +91 8805641257</p>
+              <p><strong>Email:</strong> support@shivnerisystems.com</p>
+              <p><strong>HR Department:</strong> support@shivnerisystems.com</p>
             </div>
             <p className="text-white leading-relaxed mt-4">
               All reports will be investigated promptly and confidentially. We have a no-retaliation policy for those who report concerns in good faith.
@@ -118,7 +118,7 @@ export default function ModernSlaveryPolicy() {
           <section>
             <h2 className="text-2xl font-semibold mb-4">Contact</h2>
             <p className="text-white">
-              For questions about our Modern Slavery Policy, please contact us at ethics@shivneri.com
+              For questions about our Modern Slavery Policy, please contact us at support@shivnerisystems.com
             </p>
           </section>
 

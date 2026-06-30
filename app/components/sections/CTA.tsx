@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+const BookingModal = dynamic(() => import('../BookingModal'), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +13,7 @@ export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const leftContentRef = useRef<HTMLDivElement>(null);
   const rightContentRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!leftContentRef.current || !rightContentRef.current) return;
@@ -50,6 +54,7 @@ export default function HeroSection() {
     };
   }, []);
   return (
+    <>
     <section ref={sectionRef} className="relative w-full mx-auto min-h-screen h-auto overflow-hidden bg-black">
       {/* Background Video */}
       <video
@@ -59,7 +64,7 @@ export default function HeroSection() {
         muted
         playsInline
       >
-        <source src="/assets/carpet-uptic.mp4" type="video/mp4" />
+        <source src="/assets/carpet.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay Grid Pattern */}
@@ -95,12 +100,18 @@ export default function HeroSection() {
             </p>
 
             {/* CTA Button */}
-            <button className="w-full px-6 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-lg btn-primary">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full px-6 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-lg btn-primary"
+            >
               Book a 30-minute consultation
             </button>
           </div>
         </div>
       </div>
     </section>
+
+    <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }

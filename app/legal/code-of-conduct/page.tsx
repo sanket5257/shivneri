@@ -67,9 +67,9 @@ export default function CodeOfConduct() {
               If you witness or experience unacceptable behavior, please report it immediately:
             </p>
             <div className="space-y-2 text-white">
-              <p><strong>Email:</strong> conduct@shivneri.com</p>
-              <p><strong>Confidential Hotline:</strong> +91 12345 67890</p>
-              <p><strong>HR Department:</strong> hr@shivneri.com</p>
+              <p><strong>Email:</strong> support@shivnerisystems.com</p>
+              <p><strong>Confidential Hotline:</strong> +91 8805641257</p>
+              <p><strong>HR Department:</strong> support@shivnerisystems.com</p>
             </div>
             <p className="text-white leading-relaxed mt-4">
               All reports will be handled confidentially and investigated promptly. We will take appropriate action to address any violations of this Code of Conduct.
@@ -93,7 +93,7 @@ export default function CodeOfConduct() {
           <section>
             <h2 className="text-2xl font-semibold mb-4">Contact</h2>
             <p className="text-white">
-              For questions about this Code of Conduct, please contact us at conduct@shivneri.com
+              For questions about this Code of Conduct, please contact us at support@shivnerisystems.com
             </p>
           </section>
 

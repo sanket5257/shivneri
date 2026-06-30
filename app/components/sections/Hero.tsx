@@ -11,7 +11,7 @@ const BookingModal = dynamic(() => import('../BookingModal'), { ssr: false });
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-export default function UpticHero() {
+export default function Hero() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);

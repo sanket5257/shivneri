@@ -192,7 +192,7 @@ const ServicesSection = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-0">
           {services.map((service, index) => (
-            <div key={service.id} className={`relative group ${
+            <div key={service.id} className={`service-card relative group ${
               // First row: 2 items, each spans 3 columns on medium screens and up
               index < 2 ? 'sm:col-span-1 lg:col-span-3' : 
               // Second row: 3 items, each spans 2 columns on large screens and up

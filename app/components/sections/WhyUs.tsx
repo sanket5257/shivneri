@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import Link from 'next/link';
 
-const WhyUptic = () => {
+const WhyUs = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(() => {
@@ -113,7 +113,7 @@ const WhyUptic = () => {
             </div>
             
             <p className="text-gray-400 mb-12 max-w-lg leading-relaxed text-sm sm:text-base">
-              No Contractors. No bloated teams. Just high quality deeply invested engineers who own who own full-stack end-to-end delivery.
+              No Contractors. No bloated teams. Just high quality deeply invested engineers who own full-stack end-to-end delivery.
             </p>
 
             {/* Video Background */}
@@ -124,7 +124,7 @@ const WhyUptic = () => {
                 muted 
                 playsInline 
                 className="w-full h-full object-cover"
-                src="/assets/uptic-cube.mp4"
+                src="/assets/cube.mp4"
               />
             </div>
           </div>
@@ -157,7 +157,7 @@ const WhyUptic = () => {
                 muted 
                 playsInline 
                 className="w-full h-full object-cover"
-                src="/assets/uptic-rail.mp4"
+                src="/assets/rail.mp4"
               />
             </div>
           </div>
@@ -176,7 +176,7 @@ const WhyUptic = () => {
                   muted 
                   playsInline 
                   className="w-full h-full object-cover"
-                  src="/assets/uptic-sliders.mp4"
+                  src="/assets/sliders.mp4"
                 />
               </div>
 
@@ -194,7 +194,7 @@ const WhyUptic = () => {
                 </div>
                 
                 <p className="text-neutral-400 leading-relaxed text-sm sm:text-base">
-                  Uptic delivers full-lifecycle engineering — from secure platform foundations to scalable applications and continuous innovation. No handoffs. No context lost.
+                  Shivneri delivers full-lifecycle engineering — from secure platform foundations to scalable applications and continuous innovation. No handoffs. No context lost.
                 </p>
               </div>
             </div>
@@ -205,4 +205,4 @@ const WhyUptic = () => {
   );
 };
 
-export default WhyUptic;
+export default WhyUs;

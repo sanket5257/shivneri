@@ -85,7 +85,7 @@ export default function CookiePolicy() {
           <section>
             <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
             <p className="text-white">
-              If you have questions about our Cookie Policy, please contact us at cookies@shivneri.com
+              If you have questions about our Cookie Policy, please contact us at support@shivnerisystems.com
             </p>
           </section>
 

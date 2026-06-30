@@ -9,8 +9,8 @@ const WhereWeWork = () => {
     hours: 'Mon – Fri, 9:30 AM – 6:30 PM IST',
     mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2272.079122656418!2d74.45311016151875!3d16.718548202270377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc11dc168db2df3%3A0x38067f7a2e81886d!2sShivneri%20Systems%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1764828981119!5m2!1sen!2sin',
     contacts: [
-      { type: 'Sales', phone: '+91 231 123 4567' },
-      { type: 'Support', phone: '+91 231 765 4321' }
+      { type: 'Sales', phone: '+91 8888997809' },
+      { type: 'Support', phone: '+91 8805641257' }
     ]
   };
 
@@ -103,8 +103,8 @@ const WhereWeWork = () => {
           </div>
           <div>
             <div className="text-gray-400 text-xs sm:text-sm mb-0.5 sm:mb-1">Sales</div>
-            <a href="mailto:sales@shivnerisystems.com" className="text-gray-300 hover:text-white transition-colors">
-              sales@shivnerisystems.com
+            <a href="mailto:support@shivnerisystems.com" className="text-gray-300 hover:text-white transition-colors">
+              support@shivnerisystems.com
             </a>
           </div>
         </div>

@@ -9,7 +9,7 @@ import Contact from '../components/sections/Contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function UpticLanding() {
+export default function AboutLanding() {
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
   const [openWho, setOpenWho] = useState<number | null>(0);
