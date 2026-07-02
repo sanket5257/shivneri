@@ -15,93 +15,93 @@ interface Service {
 
 const services: Service[] = [
   {
-    id: 'ux-ui',
-    title: 'UX/UI Design',
-    subtitle: 'Design',
+    id: 'ai-development',
+    title: 'AI Development',
+    subtitle: 'AI Engineering',
     description:
-      'We create visually stunning, user-friendly designs that enhance engagement and deliver a smooth digital experience.',
-    videoSrc: '/assets/Web_design.mp4',
+      'Turn AI from a demo into a product — LLM apps, RAG, agents, and AI features built for production.',
+    videoSrc: '/assets/development.mp4',
     features: [
-      'User research & personas',
-      'Competitors analysis',
-      'Wireframes & prototypes',
-      'Interactive & motion design',
-      'Mobile-optimized design',
+      'LLM application development',
+      'RAG & knowledge/retrieval systems',
+      'AI agents & copilots',
+      'Model integration & fine-tuning',
+      'Evals, guardrails & monitoring',
     ],
   },
   {
-    id: 'development',
-    title: 'Web Development',
-    subtitle: 'Development',
+    id: 'ai-automation',
+    title: 'AI Automation',
+    subtitle: 'Automation',
     description:
-      'We build robust technical foundations that bring creative concepts to life while ensuring scalability for your growing business.',
-    videoSrc: '/assets/development.mp4',
+      'Automate the repetitive, error-prone work slowing your team down — end to end.',
+    videoSrc: '/assets/video_editing.mp4',
     features: [
-      'Custom web development',
-      'Full-stack development',
+      'Workflow & process automation',
+      'Data pipelines & ETL',
+      'Document & email automation',
+      'Internal AI tools & copilots',
+      'Integrations (CRM, ERP, Slack)',
+    ],
+  },
+  {
+    id: 'custom-software',
+    title: 'Custom Software Development',
+    subtitle: 'Software',
+    description:
+      'SaaS products, internal platforms, and APIs on clean, scalable architecture you own.',
+    videoSrc: '/assets/motion_graphics.mp4',
+    features: [
+      'SaaS product development',
+      'Internal platforms & tools',
+      'APIs & integrations',
+      'Legacy modernization',
+      'System architecture & design',
+    ],
+  },
+  {
+    id: 'web-development',
+    title: 'Web Development',
+    subtitle: 'Web',
+    description:
+      'Fast, modern, SEO-ready web apps on Next.js and a cloud-native stack.',
+    videoSrc: '/assets/Web_design.mp4',
+    features: [
+      'Web application development',
+      'Marketing & product sites',
+      'E-commerce',
       'CMS integration',
-      'E-commerce development',
-      'Performance optimization',
+      'Performance & SEO optimization',
     ],
   },
   {
     id: 'mobile-apps',
-    title: 'Mobile Applications',
+    title: 'Mobile App Development',
     subtitle: 'iOS & Android',
     description:
-      'We develop high-performance mobile applications that provide seamless user experiences across all devices and platforms.',
+      'Native and cross-platform iOS and Android apps that ship fast.',
     videoSrc: '/assets/mobile_application.mp4',
     features: [
-      'Native iOS & Android apps',
+      'Native iOS & Android',
       'Cross-platform development',
-      'UI/UX mobile design',
-      'App store optimization',
+      'Mobile UX/UI design',
       'API integration',
+      'App store launch & ASO',
     ],
   },
   {
-    id: 'motion-graphics',
-    title: 'Motion Graphics',
-    subtitle: 'Animation & Visuals',
+    id: 'design-brand',
+    title: 'Design, Brand & Motion',
+    subtitle: 'In-house',
     description:
-      'We create captivating motion graphics that bring your brand to life and communicate complex ideas in an engaging way.',
-    videoSrc: '/assets/motion_graphics.mp4',
-    features: [
-      '2D & 3D animation',
-      'Explainer videos',
-      'Logo animations',
-      'Motion graphics for web',
-      'Social media content',
-    ],
-  },
-  {
-    id: 'branding',
-    title: 'Branding',
-    subtitle: 'Brand Identity',
-    description:
-      'We craft memorable brand identities that resonate with your audience and establish a strong market presence.',
+      'Design, branding, motion, and video — handled in-house as part of any engagement, so your product looks as good as it works.',
     videoSrc: '/assets/branding.mp4',
     features: [
-      'Brand strategy',
-      'Logo & visual identity',
-      'Brand guidelines',
+      'Product & UX/UI design',
+      'Brand identity & guidelines',
+      'Motion graphics & animation',
+      'Video production & editing',
       'Marketing collateral',
-      'Brand positioning',
-    ],
-  },
-  {
-    id: 'video-production',
-    title: 'Video Production',
-    subtitle: 'Filming & Editing',
-    description:
-      "We produce high-quality video content that tells your brand's story and captivates your target audience.",
-    videoSrc: '/assets/video_editing.mp4',
-    features: [
-      'Corporate videos',
-      'Product demos',
-      'Testimonial videos',
-      'Social media content',
-      'Post-production editing',
     ],
   },
 ];
@@ -181,19 +181,19 @@ export default function ServicesPage() {
       <section className="w-full max-w-[1728px] mx-auto px-6 md:px-12 lg:px-24 pt-32 sm:pt-40 pb-12 sm:pb-16 text-center">
         <div className="mb-6 sm:mb-8">
           <span className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-neutral-700 text-xs sm:text-sm text-neutral-400">
-            Development from UI to AI
+            AI-first product engineering studio
           </span>
         </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight tracking-tight mb-5 sm:mb-6">
-          Build Bold.
+          From UI to AI —
           <br />
-          <span className="text-neutral-500">Modernize Smart.</span>
+          <span className="text-neutral-500">built by senior engineers.</span>
         </h1>
 
         <p className="text-neutral-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          From greenfield apps to SaaS modernization, we design, build, and
-          scale software that&apos;s fast, secure, and built for what&apos;s next.
+          We design, build, and scale AI products, automation, and full-stack
+          software for funded startups. One senior team, end to end.
         </p>
       </section>
 
