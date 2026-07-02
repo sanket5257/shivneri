@@ -2,7 +2,7 @@ export default function MVPCards() {
   const cards = [
     {
       title: "Mission",
-      description: "Build, scale, and run great software—fast, secure, and built for what's next.",
+      description: "Build, scale, and run great software — fast, secure, and built for what's next.",
       image: "/assets/images/68d105c245053d57199df7a8_Wireframe 33.svg" // Add your image path here
     },
     {
@@ -12,7 +12,7 @@ export default function MVPCards() {
     },
     {
       title: "Purpose",
-      description: "We turn bold ideas into resilient, scalable systems—minus the red tape.",
+      description: "We turn bold ideas into resilient, scalable systems — minus the red tape.",
       image: "/assets/images/68d105c245053d57199df7a8_Wireframe 33.svg" // Add your image path here
     }
   ];

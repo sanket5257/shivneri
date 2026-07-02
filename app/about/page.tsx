@@ -96,19 +96,19 @@ export default function AboutLanding() {
 
   const services = [
     {
-      title: "Startups with big ideas",
+      title: "Startups",
       body:
-        "We're your full-stack launchpad — from a blank repo to a shipped product. MVP to production in weeks, cloud-native from day one, and built to scale as you grow.",
+        "From concept to production, fast. We're your full-stack launchpad — ship your MVP and AI features in weeks, not quarters, cloud-native from day one and built to scale.",
     },
     {
-      title: "Enterprises untangling old systems",
+      title: "Scale-ups",
       body:
-        "We refactor and modernize the mess without breaking what already works — legacy modernization, zero-downtime migrations, and the pipelines and automation that let you ship again.",
+        "Senior capacity without the hiring lag. Add a senior product and platform team this week — no three-month hire — that scales up or down as you grow.",
     },
     {
-      title: "MSPs and IT teams",
+      title: "Enterprises",
       body:
-        "We help you scale and automate without the burnout — workflow automation, reliable and observable infrastructure, and on-demand engineering when you need to move fast.",
+        "Legacy modernization and zero-downtime migrations. We modernize old systems without breaking what already works, and keep you shipping.",
     },
   ];
 
@@ -172,10 +172,10 @@ export default function AboutLanding() {
             </h2>
 
             <p className="text-neutral-400 max-w-xl text-base sm:text-lg mt-6 sm:mt-8 leading-relaxed">
-              We&apos;re the team companies call when they need modern software
-              that actually ships. From cloud-native builds to pipelines and
-              automation, we architect your future while fixing what&apos;s holding
-              you back.
+              Shivneri is an AI-first product engineering studio. We help
+              founders go from idea to shipped product without the handoffs,
+              juniors, and overhead of a traditional agency. We build it, run
+              it, and keep innovating.
             </p>
           </div>
 
