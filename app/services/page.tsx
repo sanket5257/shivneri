@@ -19,7 +19,7 @@ const services: Service[] = [
     title: 'AI Development',
     subtitle: 'AI Engineering',
     description:
-      'Turn AI from a demo into a product — LLM apps, RAG, agents, and AI features built for production.',
+      'Custom LLM apps, RAG systems, AI agents, and intelligent features — engineered for production, not just demos.',
     videoSrc: '/assets/development.mp4',
     features: [
       'LLM application development',
@@ -34,8 +34,8 @@ const services: Service[] = [
     title: 'AI Automation',
     subtitle: 'Automation',
     description:
-      'Automate the repetitive, error-prone work slowing your team down — end to end.',
-    videoSrc: '/assets/video_editing.mp4',
+      'We find the repetitive work draining your team and automate it — workflows, data, support, and ops.',
+    videoSrc: '/assets/motion_graphics.mp4',
     features: [
       'Workflow & process automation',
       'Data pipelines & ETL',
@@ -49,8 +49,8 @@ const services: Service[] = [
     title: 'Custom Software Development',
     subtitle: 'Software',
     description:
-      'SaaS products, internal platforms, and APIs on clean, scalable architecture you own.',
-    videoSrc: '/assets/motion_graphics.mp4',
+      'Bespoke platforms, internal tools, and SaaS products on clean, scalable architecture you own.',
+    videoSrc: '/assets/cube.mp4',
     features: [
       'SaaS product development',
       'Internal platforms & tools',
@@ -64,7 +64,7 @@ const services: Service[] = [
     title: 'Web Development',
     subtitle: 'Web',
     description:
-      'Fast, modern, SEO-ready web apps on Next.js and a cloud-native stack.',
+      'Fast, modern web apps built with Next.js and a cloud-native stack — performant and SEO-ready.',
     videoSrc: '/assets/Web_design.mp4',
     features: [
       'Web application development',
@@ -79,7 +79,7 @@ const services: Service[] = [
     title: 'Mobile App Development',
     subtitle: 'iOS & Android',
     description:
-      'Native and cross-platform iOS and Android apps that ship fast.',
+      'High-performance iOS and Android apps that feel native and ship fast — from MVP to scale.',
     videoSrc: '/assets/mobile_application.mp4',
     features: [
       'Native iOS & Android',
@@ -90,15 +90,30 @@ const services: Service[] = [
     ],
   },
   {
-    id: 'design-brand',
-    title: 'Design, Brand & Motion',
-    subtitle: 'In-house',
+    id: 'ux-ui-design',
+    title: 'UX/UI Design',
+    subtitle: 'Design',
     description:
-      'Design, branding, motion, and video — handled in-house as part of any engagement, so your product looks as good as it works.',
+      'Intuitive, polished product design that makes your software a pleasure to use.',
+    videoSrc: '/assets/video_editing.mp4',
+    features: [
+      'User research & personas',
+      'Wireframes & prototypes',
+      'Interactive & motion design',
+      'Design systems',
+      'Mobile-optimized design',
+    ],
+  },
+  {
+    id: 'brand-motion',
+    title: 'Brand & Motion Design',
+    subtitle: 'Brand & Motion',
+    description:
+      'Branding, motion, and video — handled in-house, so your product looks as good as it works.',
     videoSrc: '/assets/branding.mp4',
     features: [
-      'Product & UX/UI design',
       'Brand identity & guidelines',
+      'Logo & visual identity',
       'Motion graphics & animation',
       'Video production & editing',
       'Marketing collateral',
