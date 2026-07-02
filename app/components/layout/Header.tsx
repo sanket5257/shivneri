@@ -141,7 +141,7 @@ const Header = () => {
             ref={menuRef}
             className={`liquid-glass ${
               isOpen ? 'liquid-glass--raised' : ''
-            } hidden sm:block absolute left-1/2 -translate-x-1/2 sm:w-80 md:w-96 z-50 rounded-2xl`}
+            } hidden lg:block absolute left-1/2 -translate-x-1/2 w-96 z-50 rounded-2xl`}
             style={{
               maxHeight: isOpen ? 420 : 60,
               transition:
@@ -241,8 +241,8 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Right: Book a Free Call — desktop / tablet only */}
-          <div className="z-50 hidden sm:flex items-center space-x-3 sm:space-x-4 pt-2">
+          {/* Right: Book a Free Call — desktop only */}
+          <div className="z-50 hidden lg:flex items-center space-x-3 sm:space-x-4 pt-2">
             <button
               className="btn-primary text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2"
               onClick={() => {
@@ -254,13 +254,13 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Right: Mobile hamburger — identical to the desktop toggle */}
+          {/* Right: hamburger — mobile & tablet (below lg) */}
           <button
             ref={hamburgerRef}
             onClick={() => setIsOpen((v) => !v)}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
-            className="relative z-[60] flex h-10 w-10 items-center justify-end pt-2 text-white sm:hidden"
+            className="relative z-[60] flex h-10 w-10 items-center justify-end pt-2 text-white lg:hidden"
           >
             <span
               style={{
@@ -312,7 +312,7 @@ const Header = () => {
       {/* Mobile menu — dimming scrim + liquid-glass dropdown */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 z-30 bg-black/50 backdrop-blur-[2px] transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:hidden ${
+        className={`fixed inset-0 z-30 bg-black/50 backdrop-blur-[2px] transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
           isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
       />
@@ -321,7 +321,7 @@ const Header = () => {
         ref={mobilePanelRef}
         className={`liquid-glass ${
           isOpen ? 'liquid-glass--raised' : ''
-        } fixed left-4 right-4 top-[84px] z-40 origin-top rounded-[28px] transition-[opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:hidden ${
+        } fixed left-4 right-4 top-[84px] z-40 origin-top rounded-[28px] transition-[opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:left-auto sm:right-6 sm:w-[24rem] sm:origin-top-right lg:hidden ${
           isOpen
             ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none -translate-y-3 scale-[0.97] opacity-0'
