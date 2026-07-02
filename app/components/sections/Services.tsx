@@ -2,7 +2,10 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Service {
   id: number;
@@ -70,59 +73,81 @@ const ServicesSection = () => {
   ];
 
   useEffect(() => {
-    // Header animation
-    const headerTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    
-    if (headerRef.current && subtitleRef.current && title1Ref.current && title2Ref.current && ctaRef.current) {
-      // Set initial styles
-      gsap.set([headerRef.current, subtitleRef.current, title1Ref.current, title2Ref.current, ctaRef.current], {
-        opacity: 0,
-        y: 20
-      });
+    if (typeof window === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
 
-      // Animate header elements in sequence
-      headerTl
-        .to(headerRef.current, {
+    // Header animation — no scroll dependency, so it runs immediately. Using
+    // fromTo with an explicit opacity:1 end keeps it deterministic (soft
+    // navigation can never leave it stuck at the invisible "from" state).
+    const headerEls = [
+      headerRef.current,
+      subtitleRef.current,
+      title1Ref.current,
+      title2Ref.current,
+      ctaRef.current,
+    ].filter(Boolean);
+    if (headerEls.length) {
+      gsap.fromTo(
+        headerEls,
+        { opacity: 0, y: 20 },
+        {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          delay: 0.3
-        })
-        .to(subtitleRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6
-        }, '-=0.5')
-        .to(title1Ref.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6
-        }, '-=0.4')
-        .to(title2Ref.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6
-        }, '-=0.3')
-        .to(ctaRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6
-        }, '-=0.2');
+          duration: 0.7,
+          stagger: 0.12,
+          delay: 0.2,
+          ease: 'power3.out',
+        }
+      );
     }
 
-    // Service cards animation
-    gsap.from('.service-card', {
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 60%',
-        toggleActions: 'play none none none',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    // Keep ScrollTrigger in sync with Lenis smooth scroll.
+    const lenis = (window as unknown as { lenis?: { on: Function; off: Function } })
+      .lenis;
+    const onScroll = () => ScrollTrigger.update();
+    if (lenis) lenis.on('scroll', onScroll);
+
+    let ctx: ReturnType<typeof gsap.context> | undefined;
+
+    // Build the card reveal AFTER layout/images/videos settle. On client-side
+    // navigation the new section isn't measured yet when the effect first runs,
+    // so we wait two frames and then refresh — otherwise the trigger positions
+    // are stale and the reveal can get stuck invisible until a hard refresh.
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        ctx = gsap.context(() => {
+          gsap.fromTo(
+            '.service-card',
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 85%',
+                once: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        }, sectionRef);
+
+        ScrollTrigger.refresh();
+      })
+    );
+
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener('load', onLoad);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('load', onLoad);
+      if (lenis) lenis.off('scroll', onScroll);
+      ctx?.revert();
+    };
   }, []);
 
   const handleMouseEnter = async (index: number) => {
