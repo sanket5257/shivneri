@@ -69,23 +69,23 @@ const OurApproachSection = () => {
         {/* LEFT CONTENT */}
         <div className="space-y-8">
           <span className="inline-block px-6 py-2 text-sm text-neutral-300 border border-neutral-700 rounded-full">
-            Built for the Best. Trusted by Industry Leaders
+            Trusted by founders building the next generation of products
           </span>
 
           <div>
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-neutral-500">
-              Proven across industries,
+              Built for founders,
             </h2>
             <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-white">
-              from startups to <br className="hidden sm:block" />
-              global enterprises
+              from first MVP <br className="hidden sm:block" />
+              to global scale
             </h3>
           </div>
 
           <p className="text-neutral-400 max-w-3xl leading-relaxed">
-            Our clients rely on us to architect, build, and scale high-performance systems that power their growth.
-            Whether modernizing legacy apps, launching new platforms, or powering developer productivity, we deliver with
-            precision, speed, and reliability.
+            Founders, CTOs, and product leaders come to us to ship AI products and full-stack software fast — then stay on
+            to run and scale them. Senior engineers who own outcomes, from first commit to production. No handoffs, no
+            bloat, no context lost.
           </p>
         </div>
 
