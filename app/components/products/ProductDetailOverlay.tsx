@@ -81,7 +81,7 @@ export default function ProductDetailOverlay({
   // Circular control using the site's Liquid Glass surface — its dark adaptive
   // tint keeps white icons legible over bright media.
   const iconBtn =
-    'liquid-glass pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
+    'liquid-glass pointer-events-auto flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105 sm:h-14 sm:w-14';
 
   return (
     <Portal>
@@ -127,7 +127,7 @@ export default function ProductDetailOverlay({
           <button
             type="button"
             onClick={onClose}
-            className="liquid-glass pointer-events-auto group flex items-center gap-2 rounded-full px-4 py-2 text-sm tracking-wide text-white transition-transform hover:scale-105"
+            className="liquid-glass pointer-events-auto group flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm tracking-wide text-white transition-transform hover:scale-105"
           >
             <span className="relative z-[2] flex items-center gap-2">
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -144,7 +144,7 @@ export default function ProductDetailOverlay({
               type="button"
               onClick={() => setInfoOpen(true)}
               aria-expanded={infoOpen}
-              className="liquid-glass pointer-events-auto rounded-full px-5 py-2 text-[11px] uppercase tracking-[0.18em] text-white transition-transform duration-300 hover:scale-105"
+              className="liquid-glass pointer-events-auto cursor-pointer rounded-full px-5 py-2 text-[11px] uppercase tracking-[0.18em] text-white transition-transform duration-300 hover:scale-105"
             >
               <span className="relative z-[2]">Info</span>
             </button>
@@ -170,7 +170,7 @@ export default function ProductDetailOverlay({
                   onClick={() => onNavigate(i)}
                   aria-label={`Go to ${p.name}`}
                   aria-current={i === activeIndex}
-                  className="pointer-events-auto py-2"
+                  className="pointer-events-auto cursor-pointer py-2"
                 >
                   <span
                     className={`block h-0.5 w-9 rounded-full transition-all duration-300 ${

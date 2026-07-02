@@ -31,7 +31,7 @@ export default function ProductInfoPanel({
         type="button"
         onClick={onClose}
         aria-label="Close product info"
-        className="liquid-glass absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105"
+        className="liquid-glass absolute right-6 top-6 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-transform duration-300 hover:scale-105"
       >
         <svg viewBox="0 0 24 24" className="relative z-[2] h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}>
           <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
