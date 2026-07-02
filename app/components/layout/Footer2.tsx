@@ -664,7 +664,7 @@ export default function Footer2() {
           <div className="my-auto grid w-full grid-cols-12 gap-y-10 py-16 md:gap-x-10 lg:gap-x-12 lg:py-0">
             <div className="order-2 col-span-12 flex min-w-0 flex-col justify-between gap-6 md:order-1 md:col-span-6 lg:col-span-7 xl:col-span-8">
               <span className="tf2-title block" style={{ color: 'rgba(216,216,216,.5)' }}>
-                ©{BRAND}® {COPYRIGHT_YEAR}
+                © {COPYRIGHT_YEAR} Shivneri Systems Pvt. Ltd. All rights reserved.
               </span>
               <RevealTitle className="tf2-title hidden md:block">
                 <button
@@ -688,7 +688,7 @@ export default function Footer2() {
             </div>
 
             <div className="order-1 col-span-12 flex w-full min-w-0 flex-col justify-between md:order-2 md:col-span-6 lg:col-span-5 xl:col-span-4">
-              <div className="grid grid-cols-2 gap-6 sm:gap-10">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10">
                 {/* Business enquiry */}
                 <div className="flex min-w-0 flex-col">
                   <span className="tf2-title mb-6 block" style={{ color: 'rgba(216,216,216,.5)' }}>
