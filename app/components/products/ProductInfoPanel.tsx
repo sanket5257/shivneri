@@ -22,7 +22,8 @@ export default function ProductInfoPanel({
     <aside
       aria-label="Product information"
       aria-hidden={!open}
-      className={`absolute right-0 top-0 z-40 h-full w-full max-w-md overflow-y-auto bg-black/90 px-6 py-20 text-white backdrop-blur-md transition-transform duration-500 ease-out sm:px-10 ${
+      data-lenis-prevent
+      className={`absolute right-0 top-0 z-40 h-full w-full max-w-md overflow-y-auto overscroll-contain bg-black/90 px-6 pt-20 pb-16 text-white backdrop-blur-md transition-transform duration-500 ease-out sm:px-10 ${
         open ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
